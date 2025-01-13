@@ -24,16 +24,30 @@
             overflow: hidden;
         }
 
-        .background-image {
+        .background-container {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .background-image {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             filter: grayscale(100%);
-            opacity: 0.6;
+            opacity: 0;
+            transition: opacity 1s ease;
             z-index: 0;
+        }
+
+        .background-image.active {
+            opacity: 0.6;
         }
 
         .header {
@@ -210,7 +224,11 @@
     </style>
 </head>
 <body>
-    <img src="img2.png" alt="Background" class="background-image">
+    <div class="background-container">
+        <img src="img1.jpg" alt="Background 1" class="background-image">
+        <img src="img2.png" alt="Background 2" class="background-image">
+        <img src="img3.avif" alt="Background 3" class="background-image">
+    </div>
     
     <header class="header">
         <div class="nav-content">
@@ -291,6 +309,27 @@
                     comma.style.animation = 'bellJingle 0.8s ease-in-out';
                 }, 300);
             });
+
+            // Background image carousel
+            const backgrounds = document.querySelectorAll('.background-image');
+            let currentBg = 0;
+            
+            // Initial load
+            backgrounds[0].classList.add('active');
+            
+            function changeBackground() {
+                // Fade out current
+                backgrounds[currentBg].classList.remove('active');
+                
+                // Move to next image
+                currentBg = (currentBg + 1) % backgrounds.length;
+                
+                // Fade in new image
+                backgrounds[currentBg].classList.add('active');
+            }
+            
+            // Change background every 120 seconds
+            setInterval(changeBackground, 120000);
         });
     </script>
 </body>
