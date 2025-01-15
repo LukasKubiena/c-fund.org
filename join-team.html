@@ -119,6 +119,46 @@
             color: rgba(0, 0, 0, 0.6);
             font-size: 14px;
         }
+
+        .form-container.success {
+            text-align: center;
+        }
+
+        .success-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 32px;
+            margin: 0 0 24px 0;
+        }
+
+        .success-text {
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(0, 0, 0, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .success-button {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: black;
+            padding: 12px 24px;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .success-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        [hidden] {
+            display: none;
+        }
         .footer {
         background: #000000;
         padding: 80px 80px;
@@ -183,6 +223,11 @@
             </nav>
         </div>
     </header>
+    <div class="form-container success" hidden id="success">
+        <h1 class="success-title">Message sent</h1>
+        <p class="success-text">Thank you for your contribution. We'll get back to you soon.</p>
+        <a href="/" class="success-button">Return home</a>
+    </div>
 
     <div class="roles-container">
         <h1 class="section-title">Open Roles</h1>
@@ -274,6 +319,11 @@
                 });
             });
         });
+
+        if (window.location.search.includes('submitted=true')) {
+            document.getElementById('form-container').hidden = true;
+            document.getElementById('success').hidden = false;
+        }
     </script>
 
 </body>

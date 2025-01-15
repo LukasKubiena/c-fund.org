@@ -271,6 +271,45 @@
             font-size: 14px;
             color: rgba(255, 255, 255, 0.5);
         }
+        .form-container.success {
+            text-align: center;
+        }
+
+        .success-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 32px;
+            margin: 0 0 24px 0;
+        }
+
+        .success-text {
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(0, 0, 0, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .success-button {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: black;
+            padding: 12px 24px;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .success-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        [hidden] {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -286,27 +325,42 @@
         </div>
     </header>
 
-    <div class="form-container">
+    <!-- Success message container -->
+    <div class="form-container success" hidden id="success">
+        <h1 class="success-title">Request sent</h1>
+        <p class="success-text">Thank you for your submission. We'll review your request and get back to you soon.</p>
+        <a href="/" class="success-button">Return home</a>
+    </div>
+
+    <!-- Form container -->
+    <div class="form-container" id="form-container">
         <h1 class="section-title">Request</h1>
         <div class="intro-text">
             We support artists, builders, and visionaries who are working to shape the future of technology in society. Tell us about your project and how we can help.
         </div>
-        <form>
+        <form action="https://formsubmit.co/lukasmariakubiena@gmail.com" method="POST" enctype="multipart/form-data">
+            <!-- FormSubmit configuration -->
+            <input type="hidden" name="_next" value="https://c-fund.org/request?submitted=true">
+            <input type="hidden" name="_subject" value="New Project Request">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="true">
+            <input type="hidden" name="_autoresponse" value="Thank you for submitting your request. We have received your submission and will review it shortly.">
+
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" id="name" required>
+                <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" required>
+                <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="project">Tell us about your project</label>
-                <textarea id="project" required placeholder="What are you working on? What's your vision?"></textarea>
+                <textarea id="project" name="project" required placeholder="What are you working on? What's your vision?"></textarea>
             </div>
             <div class="form-group">
                 <label for="needs">What resources would help you?</label>
-                <textarea id="needs" required placeholder="Describe the support you're looking for (funding, space, equipment, connections, etc.)"></textarea>
+                <textarea id="needs" name="needs" required placeholder="Describe the support you're looking for (funding, space, equipment, connections, etc.)"></textarea>
             </div>
             
             <div class="artifact-box">
@@ -323,13 +377,13 @@
                     • Links to your previous work or influences
                 </div>
                 <div class="file-input-container">
-                    <input type="file" id="artifact" class="file-input" multiple accept="image/*,audio/*,video/*,.pdf">
+                    <input type="file" id="artifact" name="artifact" class="file-input" multiple accept="image/*,audio/*,video/*,.pdf">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="timeline">Timeline</label>
-                <input type="text" id="timeline" placeholder="When do you need these resources?" required>
+                <input type="text" id="timeline" name="timeline" placeholder="When do you need these resources?" required>
             </div>
             
             <button type="submit">Submit Request</button>
@@ -368,5 +422,11 @@
             <div>Made with care in Europe</div>
         </div>
     </footer>
+<script>
+    if (window.location.search.includes('submitted=true')) {
+        document.getElementById('form-container').hidden = true;
+        document.getElementById('success').hidden = false;
+    }
+</script>
 </body>
 </html>
