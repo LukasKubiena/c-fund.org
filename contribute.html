@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C - Contribute</title>
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
+    <style>
+        @font-face {
+            font-family: 'NeueHaasDisplay-Light';
+            src: url('NeueHaasDisplay-Light.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'NeueHaasDisplay-Medium';
+            src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
+        }
+        
+        body {
+            margin: 0;
+            background: #ffffff;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            text-decoration: none;
+            color: black;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .quick-donate {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 120px 24px 40px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 32px;
+            margin: 0 0 24px 0;
+        }
+
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .amount-box {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: black;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+        }
+
+        .amount-box:hover {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .amount-box.selected {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin: 32px 0;
+        }
+
+        .payment-button {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .payment-button img {
+            height: 20px;
+        }
+
+        .divider {
+            max-width: 600px;
+            margin: 60px auto;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+
+        .intro-text {
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: black;
+            padding: 12px 24px;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .amount-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .payment-methods {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-content">
+            <a href="index.html" class="logo">c</a>
+            <nav class="nav-links">
+                <a href="join.html" class="nav-link">join</a>
+                <a href="fund.html" class="nav-link">fund</a>
+                <a href="index.html" class="nav-link">explore</a>
+                <a href="about.html" class="nav-link">about</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="quick-donate">
+        <h1 class="section-title">Contribute</h1>
+        <div class="amount-grid">
+            <button class="amount-box" data-amount="5">€5</button>
+            <button class="amount-box" data-amount="15">€15</button>
+            <button class="amount-box" data-amount="200">€200</button>
+            <button class="amount-box" id="customAmount">Custom</button>
+        </div>
+
+        <div class="payment-methods">
+            <button class="payment-button" id="paypalButton">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/paypal.svg" alt="PayPal">
+                PayPal
+            </button>
+            <button class="payment-button" id="stripeButton">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/stripe.svg" alt="Credit Card">
+                Credit Card
+            </button>
+            <button class="payment-button" id="bmcButton">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/buymeacoffee.svg" alt="Buy Me A Coffee">
+                Buy Me A Coffee
+            </button>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="form-container" id="customForm">
+        <div class="intro-text">
+            We welcome all forms of contribution to support our movement. Beyond financial support, we value spaces, equipment, expertise, and connections that can help advance our mission.
+        </div>
+        <form id="contributionForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="type">Type of Contribution</label>
+                <select id="type" required>
+                    <option value="">Select type...</option>
+                    <option value="financial">Financial Support</option>
+                    <option value="space">Physical Space</option>
+                    <option value="equipment">Equipment</option>
+                    <option value="expertise">Expertise/Skills</option>
+                    <option value="network">Network/Connections</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="details">Details of Contribution</label>
+                <textarea id="details" required placeholder="Please describe what you would like to contribute..."></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Amount selection
+        let selectedAmount = null;
+        const amountBoxes = document.querySelectorAll('.amount-box');
+        
+        amountBoxes.forEach(box => {
+            box.addEventListener('click', (e) => {
+                const amount = e.target.dataset.amount;
+                if (amount) {
+                    selectedAmount = parseInt(amount);
+                    amountBoxes.forEach(b => b.classList.remove('selected'));
+                    box.classList.add('selected');
+                } else {
+                    // Custom amount clicked
+                    document.getElementById('customForm').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                }
+            });
+        });
+
+        // PayPal integration
+        paypal.Buttons({
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: selectedAmount || '5'
+                        }
+                    }]
+                });
+            },
+            onApprove: (data, actions) => {
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypalButton');
+
+        // Stripe integration would go here
+        document.getElementById('stripeButton').addEventListener('click', () => {
+            // Initialize Stripe checkout
+            // This would require your Stripe publishable key and backend integration
+        });
+
+        // Buy Me A Coffee integration
+        document.getElementById('bmcButton').addEventListener('click', () => {
+            window.open('https://www.buymeacoffee.com/your-username', '_blank');
+        });
+
+        // Form submission
+        document.getElementById('contributionForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle form submission
+            alert('Thank you for your contribution!');
+        });
+    </script>
+</body>
+</html>

@@ -18,14 +18,18 @@
             margin: 0;
             background: #000000;
             font-family: 'NeueHaasDisplay-Light', sans-serif;
-            min-height: 100vh;
             color: white;
+            position: relative;
+        }
+
+        .landing-section {
+            height: 100vh;
             position: relative;
             overflow: hidden;
         }
 
         .background-container {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -75,6 +79,22 @@
             text-decoration: none;
             color: white;
             font-family: 'NeueHaasDisplay-Medium', sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
         }
 
         .content {
@@ -165,6 +185,44 @@
             opacity: 0.7;
         }
 
+        /* Explore Section Styles */
+        .explore-section {
+            padding: 80px 20px;
+            background: #000;
+            min-height: 100vh;
+        }
+
+        .explore-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .explore-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .explore-title {
+            font-size: 32px;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+        }
+
+        .explore-filters {
+            display: flex;
+            gap: 20px;
+        }
+
+        .explore-item {
+            aspect-ratio: 1;
+            background: #1a1a1a;
+        }
+
         @keyframes blink {
             0% { opacity: 0; }
             50% { opacity: 1; }
@@ -213,6 +271,10 @@
             .nav-content {
                 padding: 0 20px;
             }
+
+            .explore-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media screen and (min-width: 1025px) {
@@ -224,44 +286,77 @@
     </style>
 </head>
 <body>
-    <div class="background-container">
-        <img src="img1.jpg" alt="Background 1" class="background-image">
-        <img src="img2.png" alt="Background 2" class="background-image">
-        <img src="img3.avif" alt="Background 3" class="background-image">
-        <img src="img4.webp" alt="Background 3" class="background-image">
-        <img src="img5.jpeg" alt="Background 3" class="background-image">
-        <img src="img6.jpeg" alt="Background 3" class="background-image">
-    </div>
-    
     <header class="header">
         <div class="nav-content">
             <a href="/" class="logo">c</a>
-            <div>© 2025</div>
+            <nav class="nav-links">
+                <a href="join.html" class="nav-link">join</a>
+                <a href="fund.html" class="nav-link">fund</a>
+                <a href="#explore" class="nav-link">explore</a>
+                <a href="about.html" class="nav-link">about</a>
+            </nav>
         </div>
     </header>
 
-    <main class="content">
-        <div class="hey-container">
-            <div class="hey">
-                <span class="hey-text"></span><span class="comma">,</span><span class="typing-cursor"></span>
-            </div>
+    <section class="landing-section">
+        <div class="background-container">
+            <img src="img1.jpg" alt="Background 1" class="background-image">
+            <img src="img2.png" alt="Background 2" class="background-image">
+            <img src="img3.avif" alt="Background 3" class="background-image">
         </div>
 
-        <div class="text-wrapper">
-            <div class="text-1">
-                C is a new kind of cultural institution and movement of builders, artists, doers and thinkers that aims to support global institutions, researchers, organisations, leaders and local governments during the ongoing transitional period of building AGI.
+        <main class="content">
+            <div class="hey-container">
+                <div class="hey">
+                    <span class="hey-text"></span><span class="comma">,</span><span class="typing-cursor"></span>
+                </div>
             </div>
 
-            <div class="text-2">
-                We want to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics.
+            <div class="text-wrapper">
+                <div class="text-1">
+                    C is a cultural institution and fund of builders, artists, doers and thinkers that aims to support global institutions, researchers, organisations, leaders and local governments during the ongoing transitional period of building AGI.
+                </div>
+
+                <div class="text-2">
+                    We want to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics.
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="button">join</button>
+                <button class="button">fund</button>
+                <button class="button">explore</button>
+            </div>
+        </main>
+    </section>
+
+    <section id="explore" class="explore-section">
+        <div class="explore-header">
+            <h2 class="explore-title">Explore</h2>
+            <div class="explore-filters">
+                <span>Projects</span>
+                <span>Events</span>
+                <span>Bounties</span>
+                <span>Petition</span>
+                <span>Teams</span>
+                <span>Individuals</span>
             </div>
         </div>
-
-        <div class="button-group">
-            <button class="button">join</button>
-            <button class="button">fund</button>
+        <div class="explore-grid">
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
+            <div class="explore-item"></div>
         </div>
-    </main>
+    </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -271,6 +366,14 @@
             const textWrapper = document.querySelector('.text-wrapper');
             const buttonGroup = document.querySelector('.button-group');
             const cursor = document.querySelector('.typing-cursor');
+
+            // Smooth scroll for explore link
+            document.querySelector('a[href="#explore"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#explore').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
 
             setTimeout(() => {
                 let text = 'Hey';
@@ -321,18 +424,12 @@
             backgrounds[0].classList.add('active');
             
             function changeBackground() {
-                // Fade out current
                 backgrounds[currentBg].classList.remove('active');
-                
-                // Move to next image
                 currentBg = (currentBg + 1) % backgrounds.length;
-                
-                // Fade in new image
                 backgrounds[currentBg].classList.add('active');
             }
             
-            // Change background every 120 seconds
-            setInterval(changeBackground, 40000);
+            setInterval(changeBackground, 120000);
         });
     </script>
 </body>

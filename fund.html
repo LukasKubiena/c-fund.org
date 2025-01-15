@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C - Fund</title>
+    <style>
+        @font-face {
+            font-family: 'NeueHaasDisplay-Light';
+            src: url('NeueHaasDisplay-Light.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'NeueHaasDisplay-Medium';
+            src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
+        }
+        
+        body {
+            margin: 0;
+            background: #ffffff;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            color: black;
+            line-height: 1.5;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            z-index: 100;
+            background: transparent;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            text-decoration: none;
+            color: white;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-image: url('watercolor-banner.jpg'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .fund-amount {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 54px;
+            margin: 0 0 20px 0;
+        }
+
+        .fund-label {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 16px 48px;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            min-width: 160px;
+        }
+
+        .button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 0 24px;
+        }
+
+        .content-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 32px;
+            margin: 0 0 40px 0;
+        }
+
+        .content p {
+            margin-bottom: 24px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .fund-amount {
+                font-size: 64px;
+            }
+
+            .fund-label {
+                font-size: 20px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-content">
+            <a href="index.html" class="logo">c</a>
+            <nav class="nav-links">
+                <a href="join.html" class="nav-link">join</a>
+                <a href="fund.html" class="nav-link">fund</a>
+                <a href="/#explore" class="nav-link">explore</a>
+                <a href="about.html" class="nav-link">about</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="fund-amount">€2.4M</div>
+            <div class="fund-label">Current Resources Available</div>
+            <div class="button-container">
+                <a href="contribute.html" class="button">contribute</a>
+                <a href="request.html" class="button">request</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <h1 class="content-title">About the Fund</h1>
+        <p>C is a cultural institution and fund of builders, artists, doers and thinkers that aims to support global institutions, researchers, organisations, leaders and local governments during the challenging transitional period of building AGI.</p>
+        <p>We want to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics.</p>
+        <p>C is a cultural institution and fund of builders, artists, doers and thinkers that aims to support global institutions, researchers, organisations, leaders and local governments during the challenging transitional period of building AGI.</p>
+        <p>We want to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics.</p>
+    </section>
+</body>
+</html>
