@@ -319,8 +319,7 @@
         </div>
     </header>
 
-       <!-- Success message container -->
-       <div class="form-container success" hidden id="success">
+    <div class="form-container success" hidden id="success">
         <h1 class="success-title">Message sent</h1>
         <p class="success-text">Thank you for reaching out. We'll get back to you soon.</p>
         <a href="/" class="success-button">Return home</a>
@@ -329,13 +328,15 @@
     <!-- Form container -->
     <div class="form-container" id="form-container">
         <h1 class="section-title">Join</h1>
-        <form name="contact" method="POST" data-netlify="true" class="contact-form" enctype="multipart/form-data" netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="contact" />
-            <p hidden>
-                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-            </p>
+        <form action="https://formsubmit.co/lukasmariakubiena@gmail.com" method="POST" class="contact-form" enctype="multipart/form-data">
+            <!-- FormSubmit special fields -->
+            <input type="hidden" name="_next" value="https://c-fund.org/join?submitted=true">
+            <input type="hidden" name="_subject" value="New Join Request">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="true">
+            <input type="hidden" name="_autoresponse" value="Thank you for your interest in joining. We have received your submission and will review it shortly.">
             
-            <!-- Keep all form fields the same -->
+            <!-- Existing form fields -->
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required>
@@ -373,8 +374,8 @@
         </form>
     </div>
 
+    <!-- Keep existing script -->
     <script>
-        // Check if form was successfully submitted
         if (window.location.search.includes('submitted=true')) {
             document.getElementById('form-container').hidden = true;
             document.getElementById('success').hidden = false;
