@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C - Contribute</title>
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
     <style>
         @font-face {
             font-family: 'NeueHaasDisplay-Light';
@@ -34,7 +32,7 @@
             z-index: 100;
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
-            top: 20px; /* Adjust this value as needed */
+            top: 20px;
         }
 
         .nav-content {
@@ -71,6 +69,7 @@
         }
 
         .quick-donate {
+            position: relative;
             max-width: 600px;
             margin: 0 auto;
             padding: 120px 24px 40px;
@@ -119,23 +118,61 @@
         }
 
         .payment-button {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 12px 24px;
+            min-width: 160px;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: transparent;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 16px;
         }
 
-        .payment-button:hover {
-            background: rgba(0, 0, 0, 0.1);
-            border-color: rgba(0, 0, 0, 0.2);
+        .paypal-button {
+            background: #0070BA;
+            color: white;
+        }
+
+        .paypal-button:hover {
+            background: #005ea6;
+        }
+
+        .stripe-button {
+            background: #635BFF;
+            color: white;
+        }
+
+        .stripe-button:hover {
+            background: #5851e5;
         }
 
         .payment-button img {
             height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .coming-soon-text {
+            color: rgb(0, 0, 0);
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
         .divider {
@@ -197,11 +234,12 @@
             background: rgba(0, 0, 0, 0.1);
             border-color: rgba(0, 0, 0, 0.2);
         }
+
         .footer {
-        background: #000000;
-        padding: 80px 80px;
-        color: white;
-        font-family: 'NeueHaasDisplay-Light', sans-serif;
+            background: #000000;
+            padding: 80px 80px;
+            color: white;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
         }
 
         .footer-content {
@@ -273,6 +311,9 @@
     </header>
 
     <div class="quick-donate">
+        <div class="blur-overlay">
+            <div class="coming-soon-text">more to share soon!</div>
+        </div>
         <h1 class="section-title">Contribute</h1>
         <div class="amount-grid">
             <button class="amount-box" data-amount="5">€5</button>
@@ -282,39 +323,41 @@
         </div>
 
         <div class="payment-methods">
-            <button class="payment-button" id="paypalButton">
+            <button class="payment-button paypal-button">
                 <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/paypal.svg" alt="PayPal">
-                PayPal
+                Check out with
             </button>
-            <button class="payment-button" id="stripeButton">
+            <button class="payment-button stripe-button">
                 <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/stripe.svg" alt="Credit Card">
-                Credit Card
-            </button>
-            <button class="payment-button" id="bmcButton">
-                <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/buymeacoffee.svg" alt="Buy Me A Coffee">
-                Buy Me A Coffee
+                Pay with Card
             </button>
         </div>
     </div>
 
     <div class="divider"></div>
 
-    <div class="form-container" id="customForm">
+    <div class="form-container">
         <div class="intro-text">
             We welcome all forms of contribution to support our movement. Beyond financial support, we value spaces, equipment, expertise, and connections that can help advance our mission.
         </div>
-        <form id="contributionForm">
+        <form action="https://formsubmit.co/lukasmariakubiena@gmail.com" method="POST">
+            <!-- FormSubmit configuration -->
+            <input type="hidden" name="_next" value="https://c-fund.org/thanks.html">
+            <input type="hidden" name="_subject" value="New contribution submission!">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="true">
+
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" id="name" required>
+                <input type="text" name="name" id="name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" required>
+                <input type="email" name="email" id="email" required>
             </div>
             <div class="form-group">
                 <label for="type">Type of Contribution</label>
-                <select id="type" required>
+                <select name="contribution_type" id="type" required>
                     <option value="">Select type...</option>
                     <option value="financial">Financial Support</option>
                     <option value="space">Physical Space</option>
@@ -326,11 +369,12 @@
             </div>
             <div class="form-group">
                 <label for="details">Details of Contribution</label>
-                <textarea id="details" required placeholder="Please describe what you would like to contribute..."></textarea>
+                <textarea name="details" id="details" required placeholder="Please describe what you would like to contribute..."></textarea>
             </div>
             <button type="submit">Submit</button>
         </form>
     </div>
+
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">
@@ -354,9 +398,9 @@
             </div>
             <div class="footer-column">
                 <div class="footer-title">Contact</div>
-                <a href="mailto:hello@c.org" class="footer-link">hello@c.org</a>
+                <a href="mailto:hello@c-fund.org" class="footer-link">hello@c-fund.org</a>
                 <div class="footer-link">515 Example Street</div>
-                <div class="footer-link">Europe, NY 10012</div>
+                <div class="footer-link">Europe, EU</div>
             </div>
         </div>
         <div class="footer-bottom">
@@ -366,60 +410,27 @@
     </footer>
 
     <script>
-        // Amount selection
-        let selectedAmount = null;
+        // Amount selection functionality
         const amountBoxes = document.querySelectorAll('.amount-box');
         
         amountBoxes.forEach(box => {
             box.addEventListener('click', (e) => {
                 const amount = e.target.dataset.amount;
                 if (amount) {
-                    selectedAmount = parseInt(amount);
                     amountBoxes.forEach(b => b.classList.remove('selected'));
                     box.classList.add('selected');
-                } else {
-                    // Custom amount clicked
-                    document.getElementById('customForm').scrollIntoView({ 
-                        behavior: 'smooth' 
-                    });
                 }
             });
         });
 
-        // PayPal integration
-        paypal.Buttons({
-            createOrder: (data, actions) => {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: selectedAmount || '5'
-                        }
-                    }]
+        // Smooth scroll functionality
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
-            },
-            onApprove: (data, actions) => {
-                return actions.order.capture().then(function(details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                });
-            }
-        }).render('#paypalButton');
-
-        // Stripe integration would go here
-        document.getElementById('stripeButton').addEventListener('click', () => {
-            // Initialize Stripe checkout
-            // This would require your Stripe publishable key and backend integration
-        });
-
-        // Buy Me A Coffee integration
-        document.getElementById('bmcButton').addEventListener('click', () => {
-            window.open('https://www.buymeacoffee.com/your-username', '_blank');
-        });
-
-        // Form submission
-        document.getElementById('contributionForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Handle form submission
-            alert('Thank you for your contribution!');
+            });
         });
     </script>
 </body>
