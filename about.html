@@ -31,12 +31,13 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 100;
             background: rgba(0, 0, 0, 0.5);
+            top: 20px; /* Adjust this value as needed */
         }
 
         .nav-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 80px;
             height: 100%;
             display: flex;
             justify-content: space-between;
@@ -137,6 +138,56 @@
             background: #1a1a1a;
         }
 
+        .footer {
+        background: #000000;
+        padding: 80px 80px;
+        color: white;
+        font-family: 'NeueHaasDisplay-Light', sans-serif;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 60px auto 0;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
         @media screen and (max-width: 1024px) {
             .about-container {
                 grid-template-columns: 1fr;
@@ -167,7 +218,7 @@
             <nav class="nav-links">
                 <a href="join.html" class="nav-link">join</a>
                 <a href="fund.html" class="nav-link">fund</a>
-                <a href="/#explore" class="nav-link">explore</a>
+                <a href="index.html#explore" class="nav-link">explore</a>
                 <a href="about.html" class="nav-link">about</a>
             </nav>
         </div>
@@ -225,6 +276,39 @@
             </section>
         </main>
     </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-title">Navigate</div>
+                <a href="join.html" class="footer-link">Join</a>
+                <a href="fund.html" class="footer-link">Fund</a>
+                <a href="#explore" class="footer-link">Explore</a>
+                <a href="about.html" class="footer-link">About</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Legal</div>
+                <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                <a href="terms.html" class="footer-link">Terms of Service</a>
+                <a href="impressum.html" class="footer-link">Impressum</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Connect</div>
+                <a href="#" class="footer-link">Twitter</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+                <a href="#" class="footer-link">Instagram</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Contact</div>
+                <a href="mailto:hello@c.org" class="footer-link">hello@c.org</a>
+                <div class="footer-link">515 Example Street</div>
+                <div class="footer-link">Europe, NY 10012</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 c. All rights reserved.</div>
+            <div>Made with care in Europe</div>
+        </div>
+    </footer>
 
     <script>
         // Smooth scroll for sidebar links

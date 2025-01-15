@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C - Request</title>
+    <title>C - Open Roles</title>
     <style>
         @font-face {
             font-family: 'NeueHaasDisplay-Light';
@@ -31,6 +31,7 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             z-index: 100;
             background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
             top: 20px; /* Adjust this value as needed */
         }
 
@@ -67,161 +68,57 @@
             opacity: 0.7;
         }
 
-        .form-container {
-            max-width: 600px;
+        .roles-container {
+            max-width: 800px;
             margin: 0 auto;
             padding: 120px 24px 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
-        .intro-text {
-            margin-bottom: 40px;
-            font-size: 18px;
-            line-height: 1.6;
+        .roles-container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-title {
             font-family: 'NeueHaasDisplay-Medium', sans-serif;
             font-size: 32px;
-            margin: 0 0 24px 0;
+            margin: 0 0 40px 0;
         }
 
-        .form-group {
-            margin-bottom: 32px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
+        .role-card {
             border: 1px solid rgba(0, 0, 0, 0.1);
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
-            font-size: 16px;
-            background: transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: rgba(0, 0, 0, 0.3);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .artifact-box {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            margin: 32px 0;
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .artifact-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
-
-        .artifact-description {
-            font-size: 16px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        /* Add this to the existing CSS in each file */
-        .back-button {
-            position: fixed;
-            top: 24px;
-            left: 24px;
-            z-index: 101;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
-            font-size: 16px;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .back-button:hover {
-            opacity: 0.7;
-        }
-
-        /* Arrow styling */
-        .back-arrow {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            position: relative;
-        }
-
-        .back-arrow::before {
-            content: '';
-            width: 12px;
-            height: 2px;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            background: currentColor;
-            transform: translateY(-50%);
-        }
-
-        .back-arrow::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            border-left: 2px solid currentColor;
-            border-bottom: 2px solid currentColor;
-            transform: translateY(-50%) rotate(45deg);
-        }
-
-        .back-button-dark {
-            color: black;
-        }
-
-        .artifact-examples {
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.6);
-            margin-top: 12px;
-        }
-
-        button {
-            background: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: black;
-            padding: 12px 24px;
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 32px;
+            margin-bottom: 24px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        button:hover {
-            background: rgba(0, 0, 0, 0.1);
+        .role-card:hover {
+            background: rgba(0, 0, 0, 0.02);
             border-color: rgba(0, 0, 0, 0.2);
         }
 
-        .file-input-container {
-            margin-top: 20px;
+        .role-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 24px;
+            margin: 0 0 16px 0;
         }
 
-        .file-input {
-            margin-top: 8px;
+        .role-description {
+            font-size: 16px;
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
 
+        .role-meta {
+            display: flex;
+            gap: 24px;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+        }
         .footer {
         background: #000000;
         padding: 80px 80px;
@@ -274,6 +171,7 @@
     </style>
 </head>
 <body>
+
     <header class="header">
         <div class="nav-content">
             <a href="index.html" class="logo">c</a>
@@ -286,54 +184,44 @@
         </div>
     </header>
 
-    <div class="form-container">
-        <h1 class="section-title">Request</h1>
-        <div class="intro-text">
-            We support artists, builders, and visionaries who are working to shape the future of technology in society. Tell us about your project and how we can help.
+    <div class="roles-container">
+        <h1 class="section-title">Open Roles</h1>
+        
+        <div class="role-card">
+            <div class="role-title">Research Lead</div>
+            <div class="role-description">
+                Lead our research initiatives in understanding the societal implications of AGI and developing frameworks for responsible implementation.
+            </div>
+            <div class="role-meta">
+                <span>Full-time</span>
+                <span>Remote</span>
+                <span>Research</span>
+            </div>
         </div>
-        <form>
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" required>
-            </div>
-            <div class="form-group">
-                <label for="project">Tell us about your project</label>
-                <textarea id="project" required placeholder="What are you working on? What's your vision?"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="needs">What resources would help you?</label>
-                <textarea id="needs" required placeholder="Describe the support you're looking for (funding, space, equipment, connections, etc.)"></textarea>
-            </div>
-            
-            <div class="artifact-box">
-                <div class="artifact-title">Help us understand you and your work</div>
-                <div class="artifact-description">
-                    Please attach an artifact that represents you and your work. This can be anything that helps us understand your creative perspective and aspirations.
-                </div>
-                <div class="artifact-examples">
-                    Examples:
-                    • A curated moodboard that captures your aesthetic
-                    • Images that inspire your creative direction
-                    • Music that embodies your project's emotion
-                    • Sketches or prototypes of your ideas
-                    • Links to your previous work or influences
-                </div>
-                <div class="file-input-container">
-                    <input type="file" id="artifact" class="file-input" multiple accept="image/*,audio/*,video/*,.pdf">
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label for="timeline">Timeline</label>
-                <input type="text" id="timeline" placeholder="When do you need these resources?" required>
+        <div class="role-card">
+            <div class="role-title">Community Manager</div>
+            <div class="role-description">
+                Build and nurture our global community of technologists, artists, and thinkers. Facilitate meaningful connections and collaborative opportunities.
             </div>
-            
-            <button type="submit">Submit Request</button>
-        </form>
+            <div class="role-meta">
+                <span>Full-time</span>
+                <span>Hybrid</span>
+                <span>Community</span>
+            </div>
+        </div>
+
+        <div class="role-card">
+            <div class="role-title">Technical Project Lead</div>
+            <div class="role-description">
+                Drive technical initiatives that bridge the gap between AGI development and practical societal implementation.
+            </div>
+            <div class="role-meta">
+                <span>Full-time</span>
+                <span>Remote</span>
+                <span>Technical</span>
+            </div>
+        </div>
     </div>
     <footer class="footer">
         <div class="footer-content">
@@ -368,5 +256,25 @@
             <div>Made with care in Europe</div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('.roles-container');
+            
+            // Add visible class after a short delay
+            setTimeout(() => {
+                container.classList.add('visible');
+            }, 100);
+
+            // Make role cards clickable
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    // This would typically open a detailed view or application form
+                    console.log('Role clicked:', card.querySelector('.role-title').textContent);
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C - Request</title>
+    <title>C - Join</title>
     <style>
         @font-face {
             font-family: 'NeueHaasDisplay-Light';
@@ -34,112 +34,8 @@
             top: 20px; /* Adjust this value as needed */
         }
 
-        .nav-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 80px;
-            height: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            text-decoration: none;
-            color: black;
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: black;
-            text-decoration: none;
-            font-size: 16px;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-link:hover {
-            opacity: 0.7;
-        }
-
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 120px 24px 60px;
-        }
-
-        .intro-text {
-            margin-bottom: 40px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .section-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 32px;
-            margin: 0 0 24px 0;
-        }
-
-        .form-group {
-            margin-bottom: 32px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
-            font-size: 16px;
-            background: transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: rgba(0, 0, 0, 0.3);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .artifact-box {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            margin: 32px 0;
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .artifact-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
-
-        .artifact-description {
-            font-size: 16px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        /* Add this to the existing CSS in each file */
-        .back-button {
+                /* Add this to the existing CSS in each file */
+                .back-button {
             position: fixed;
             top: 24px;
             left: 24px;
@@ -192,10 +88,116 @@
             color: black;
         }
 
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 80px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            text-decoration: none;
+            color: black;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 120px 24px 60px;
+        }
+
+        .section-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 32px;
+            margin: 0 0 40px 0;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 12px;
+            color: black;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .artifact-box {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin: 32px 0;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .artifact-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .artifact-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
         .artifact-examples {
             font-size: 14px;
             color: rgba(0, 0, 0, 0.6);
             margin-top: 12px;
+        }
+
+        .file-input-container {
+            margin-top: 20px;
         }
 
         button {
@@ -207,21 +209,13 @@
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 16px;
         }
 
         button:hover {
             background: rgba(0, 0, 0, 0.1);
             border-color: rgba(0, 0, 0, 0.2);
         }
-
-        .file-input-container {
-            margin-top: 20px;
-        }
-
-        .file-input {
-            margin-top: 8px;
-        }
-
         .footer {
         background: #000000;
         padding: 80px 80px;
@@ -271,6 +265,45 @@
             font-size: 14px;
             color: rgba(255, 255, 255, 0.5);
         }
+        .form-container.success {
+            text-align: center;
+        }
+
+        .success-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 32px;
+            margin: 0 0 24px 0;
+        }
+
+        .success-text {
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(0, 0, 0, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .success-button {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: black;
+            padding: 12px 24px;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .success-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        [hidden] {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -286,55 +319,67 @@
         </div>
     </header>
 
-    <div class="form-container">
-        <h1 class="section-title">Request</h1>
-        <div class="intro-text">
-            We support artists, builders, and visionaries who are working to shape the future of technology in society. Tell us about your project and how we can help.
-        </div>
-        <form>
+       <!-- Success message container -->
+       <div class="form-container success" hidden id="success">
+        <h1 class="success-title">Message sent</h1>
+        <p class="success-text">Thank you for reaching out. We'll get back to you soon.</p>
+        <a href="/" class="success-button">Return home</a>
+    </div>
+
+    <!-- Form container -->
+    <div class="form-container" id="form-container">
+        <h1 class="section-title">Join</h1>
+        <form name="contact" method="POST" data-netlify="true" class="contact-form" enctype="multipart/form-data" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact" />
+            <p hidden>
+                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            </p>
+            
+            <!-- Keep all form fields the same -->
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" id="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" required>
-            </div>
-            <div class="form-group">
-                <label for="project">Tell us about your project</label>
-                <textarea id="project" required placeholder="What are you working on? What's your vision?"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="needs">What resources would help you?</label>
-                <textarea id="needs" required placeholder="Describe the support you're looking for (funding, space, equipment, connections, etc.)"></textarea>
+                <input type="text" id="name" name="name" required>
             </div>
             
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+
             <div class="artifact-box">
-                <div class="artifact-title">Help us understand you and your work</div>
+                <div class="artifact-title">Help us understand you better</div>
                 <div class="artifact-description">
-                    Please attach an artifact that represents you and your work. This can be anything that helps us understand your creative perspective and aspirations.
+                    Please share something that represents your perspective and aspirations. This helps us understand who you are beyond traditional applications.
                 </div>
                 <div class="artifact-examples">
                     Examples:
-                    • A curated moodboard that captures your aesthetic
-                    • Images that inspire your creative direction
-                    • Music that embodies your project's emotion
-                    • Sketches or prototypes of your ideas
-                    • Links to your previous work or influences
+                    • A collection of images that inspire you
+                    • A piece of music that moves you
+                    • Links to work or projects you admire
+                    • A moodboard that captures your vision
+                    • Any creative expression that reflects your interests
                 </div>
                 <div class="file-input-container">
-                    <input type="file" id="artifact" class="file-input" multiple accept="image/*,audio/*,video/*,.pdf">
+                    <input type="file" id="artifact" name="artifact" multiple accept="image/*,audio/*,video/*,.pdf">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="timeline">Timeline</label>
-                <input type="text" id="timeline" placeholder="When do you need these resources?" required>
-            </div>
-            
-            <button type="submit">Submit Request</button>
+            <button type="submit">Send</button>
         </form>
     </div>
+
+    <script>
+        // Check if form was successfully submitted
+        if (window.location.search.includes('submitted=true')) {
+            document.getElementById('form-container').hidden = true;
+            document.getElementById('success').hidden = false;
+        }
+    </script>
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">

@@ -28,69 +28,15 @@
             left: 0;
             right: 0;
             height: 64px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             z-index: 100;
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-                /* Add this to the existing CSS in each file */
-                .back-button {
-            position: fixed;
-            top: 24px;
-            left: 24px;
-            z-index: 101;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
-            font-size: 16px;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .back-button:hover {
-            opacity: 0.7;
-        }
-
-        /* Arrow styling */
-        .back-arrow {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            position: relative;
-        }
-
-        .back-arrow::before {
-            content: '';
-            width: 12px;
-            height: 2px;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            background: currentColor;
-            transform: translateY(-50%);
-        }
-
-        .back-arrow::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            border-left: 2px solid currentColor;
-            border-bottom: 2px solid currentColor;
-            transform: translateY(-50%) rotate(45deg);
-        }
-
-        .back-button-dark {
-            color: black;
+            background: transparent;
+            top: 20px; /* Adjust this value as needed */
         }
 
         .nav-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 80px;
             height: 100%;
             display: flex;
             justify-content: space-between;
@@ -100,7 +46,7 @@
         .logo {
             font-size: 24px;
             text-decoration: none;
-            color: black;
+            color: white;
             font-family: 'NeueHaasDisplay-Medium', sans-serif;
         }
 
@@ -110,7 +56,7 @@
         }
 
         .nav-link {
-            color: black;
+            color: white;
             text-decoration: none;
             font-size: 16px;
             transition: opacity 0.3s ease;
@@ -120,100 +66,152 @@
             opacity: 0.7;
         }
 
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 120px 24px 60px;
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-image: url('watercolor-banner2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .section-title {
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .hero-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .join-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 54px;
+            margin: 0 0 40px 0;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 16px 48px;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            min-width: 160px;
+        }
+
+        .button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 0 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-title {
             font-family: 'NeueHaasDisplay-Medium', sans-serif;
             font-size: 32px;
             margin: 0 0 40px 0;
         }
 
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 16px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            background: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 12px;
-            color: black;
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .artifact-box {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            margin: 32px 0;
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .artifact-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+        .content p {
+            margin-bottom: 24px;
             font-size: 18px;
-            margin-bottom: 12px;
-        }
-
-        .artifact-description {
-            font-size: 16px;
-            margin-bottom: 20px;
             line-height: 1.6;
         }
-
-        .artifact-examples {
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.6);
-            margin-top: 12px;
+        .footer {
+        background: #000000;
+        padding: 80px 80px;
+        color: white;
+        font-family: 'NeueHaasDisplay-Light', sans-serif;
         }
 
-        .file-input-container {
-            margin-top: 20px;
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
         }
 
-        button {
-            background: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: black;
-            padding: 12px 24px;
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
             font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 16px;
+            margin-bottom: 8px;
         }
 
-        button:hover {
-            background: rgba(0, 0, 0, 0.1);
-            border-color: rgba(0, 0, 0, 0.2);
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 60px auto 0;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .join-title {
+                font-size: 42px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button {
+                width: 200px;
+            }
         }
     </style>
 </head>
@@ -224,48 +222,85 @@
             <nav class="nav-links">
                 <a href="join.html" class="nav-link">join</a>
                 <a href="fund.html" class="nav-link">fund</a>
-                <a href="/#explore" class="nav-link">explore</a>
+                <a href="index.html#explore" class="nav-link">explore</a>
                 <a href="about.html" class="nav-link">about</a>
             </nav>
         </div>
     </header>
 
-    <div class="form-container">
-        <h1 class="section-title">Join</h1>
-        <form class="contact-form">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="join-title">Join us</div>
+            <div class="button-container">
+                <a href="join-fund.html" class="button">Join Fund</a>
+                <a href="join-team.html" class="button">Join Team</a>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" required></textarea>
-            </div>
+        </div>
+    </section>
 
-            <div class="artifact-box">
-                <div class="artifact-title">Help us understand you better</div>
-                <div class="artifact-description">
-                    Please share something that represents your perspective and aspirations. This helps us understand who you are beyond traditional applications.
-                </div>
-                <div class="artifact-examples">
-                    Examples:
-                    • A collection of images that inspire you
-                    • A piece of music that moves you
-                    • Links to work or projects you admire
-                    • A moodboard that captures your vision
-                    • Any creative expression that reflects your interests
-                </div>
-                <div class="file-input-container">
-                    <input type="file" id="artifact" multiple accept="image/*,audio/*,video/*,.pdf">
-                </div>
+    <section class="content">
+        <h1 class="content-title">About Joining</h1>
+        <p>C is a cultural institution and fund of builders, artists, doers and thinkers that aims to support global institutions, researchers, organisations, leaders and local governments during the challenging transitional period of building AGI.</p>
+        <p>We want to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics.</p>
+        <p>Our community consists of passionate individuals who believe in shaping the future of technology with intention and purpose. Whether you join as a fund member or team member, you'll be part of a movement that's working to ensure technology serves humanity's best interests.</p>
+    </section>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-title">Navigate</div>
+                <a href="join.html" class="footer-link">Join</a>
+                <a href="fund.html" class="footer-link">Fund</a>
+                <a href="#explore" class="footer-link">Explore</a>
+                <a href="about.html" class="footer-link">About</a>
             </div>
+            <div class="footer-column">
+                <div class="footer-title">Legal</div>
+                <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                <a href="terms.html" class="footer-link">Terms of Service</a>
+                <a href="impressum.html" class="footer-link">Impressum</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Connect</div>
+                <a href="#" class="footer-link">Twitter</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+                <a href="#" class="footer-link">Instagram</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Contact</div>
+                <a href="mailto:hello@c.org" class="footer-link">hello@c.org</a>
+                <div class="footer-link">515 Example Street</div>
+                <div class="footer-link">Europe, NY 10012</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 c. All rights reserved.</div>
+            <div>Made with care in Europe</div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroContent = document.querySelector('.hero-content');
+            const content = document.querySelector('.content');
 
-            <button type="submit">Send</button>
-        </form>
-    </div>
+            // Add visible class after a short delay
+            setTimeout(() => {
+                heroContent.classList.add('visible');
+            }, 100);
+
+            // Add visible class to content when it comes into view
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                },
+                { threshold: 0.1 }
+            );
+
+            observer.observe(content);
+        });
+    </script>
 </body>
 </html>

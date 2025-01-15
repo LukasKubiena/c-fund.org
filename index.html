@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C</title>
     <style>
+        /* Previous font-face definitions remain the same */
         @font-face {
             font-family: 'NeueHaasDisplay-Light';
             src: url('NeueHaasDisplay-Light.woff2') format('woff2');
@@ -13,45 +14,16 @@
             font-family: 'NeueHaasDisplay-Medium';
             src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
         }
+        @font-face {
+            font-family: 'NeueHaasDisplay-Thin';
+            src: url('NeueHaasDisplay-Thin.woff2') format('woff2');
+        }
         
         body {
             margin: 0;
             background: #000000;
             font-family: 'NeueHaasDisplay-Light', sans-serif;
             color: white;
-            position: relative;
-        }
-
-        .landing-section {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .background-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%);
-            opacity: 0;
-            transition: opacity 1s ease;
-            z-index: 0;
-        }
-
-        .background-image.active {
-            opacity: 0.6;
         }
 
         .header {
@@ -60,14 +32,15 @@
             left: 0;
             right: 0;
             height: 64px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 100;
+            background: transparent;
+            top: 20px; /* Adjust this value as needed */
         }
 
         .nav-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 80px;
             height: 100%;
             display: flex;
             justify-content: space-between;
@@ -97,107 +70,99 @@
             opacity: 0.7;
         }
 
-        .content {
+        .hero {
             position: relative;
-            z-index: 1;
-            max-width: 600px;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: flex-end; /* Changed to align bottom */
+            padding: 0; /* Remove this padding */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            padding-top: 10vh;
+            width: 100%;
+            padding: 0 80px 80px 80px; /* Left/right padding: 80px, bottom padding: 80px */
         }
 
-        .hey-container {
-            padding-top: 20vh;
-            cursor: pointer;
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
         }
 
-        .hey {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 40px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .hey-text {
-            display: inline-block;
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
             opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .comma {
-            display: inline-block;
-            opacity: 0;
-            transform-origin: center;
-        }
-
-        .typing-cursor {
-            display: inline-block;
-            width: 1px;
-            height: 1em;
-            background-color: white;
-            margin-left: 2px;
-            animation: blink 0.7s infinite;
-            vertical-align: baseline;
-        }
-
-        .text-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            opacity: 0;
-            font-size: 18px;
-            line-height: 1.5;
-        }
-
-        .text-wrapper.visible {
-            opacity: 1;
             transition: opacity 1s ease;
         }
 
-        .button-group {
-            display: flex;
-            gap: 2rem;
-            opacity: 0;
-            margin-top: 1rem;
+        .background-image.active {
+            opacity: 0.6;
         }
 
-        .button-group.visible {
-            opacity: 1;
-            transition: opacity 1s ease;
+        .hero-title {
+            font-size: 36px;
+            font-family: 'NeueHaasDisplay-Thin', sans-serif;
+            font-weight: 100; /* Made much thinner */
+            margin-bottom: 40px;
+            max-width: 600px;
+            letter-spacing: -0.02em; /* Added slight letter spacing adjustment */
+        }
+
+        .button-container {
+            display: flex;
+            gap: 18px;
         }
 
         .button {
             color: white;
-            font-size: 18px;
-            text-decoration: underline;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            transition: opacity 0.3s ease;
+            padding: 16px 28px;
             font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            min-width: 160px;
+            text-align: center;
         }
 
-        .button:hover {
-            opacity: 0.7;
+        .button.primary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Explore Section Styles */
+        .button.primary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .button.secondary {
+            opacity: 0.8;
+        }
+
+        .button.secondary:hover {
+            opacity: 1;
+        }
+
+        /* Previous explore section styles remain the same */
         .explore-section {
             padding: 80px 20px;
-            background: #000;
+            background: #ffffff;
             min-height: 100vh;
-        }
-
-        .explore-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            position: relative;
         }
 
         .explore-header {
@@ -210,77 +175,120 @@
 
         .explore-title {
             font-size: 32px;
+            color: #000000;
             font-family: 'NeueHaasDisplay-Medium', sans-serif;
         }
 
         .explore-filters {
             display: flex;
             gap: 20px;
+            color: #000000;
+        }
+
+        .explore-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
         .explore-item {
             aspect-ratio: 1;
-            background: #1a1a1a;
+            background: #D9D9D9;
         }
 
-        @keyframes blink {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
         }
 
-        @keyframes popOut {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .coming-soon-text {
+            color: rgb(0, 0, 0);
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
-        @keyframes bellJingle {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(10deg); }
-            50% { transform: rotate(-8deg); }
-            75% { transform: rotate(6deg); }
-            100% { transform: rotate(0deg); }
+        .footer {
+        background: #000000;
+        padding: 80px 80px;
+        color: white;
+        font-family: 'NeueHaasDisplay-Light', sans-serif;
         }
 
-        .hey-container:hover .hey {
-            animation: popOut 0.3s ease-out;
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
         }
 
-        .hey-container:hover .comma {
-            animation: bellJingle 0.8s ease-in-out;
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-title {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 60px auto 0;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
         }
 
         @media screen and (max-width: 1024px) {
-            .content {
-                max-width: 100%;
-                padding: 20px;
-                padding-top: 12vh;
-                gap: 2rem;
+            .hero {
+                padding: 0; /* Remove this padding */
             }
 
-            .hey {
+
+            .hero-title {
                 font-size: 36px;
-            }
-
-            .text-wrapper {
-                gap: 2rem;
-                font-size: 16px;
-            }
-
-            .nav-content {
-                padding: 0 20px;
             }
 
             .explore-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-        }
 
-        @media screen and (min-width: 1025px) {
-            .content {
-                padding-left: 20%;
-                padding-right: 20%;
+            .button-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .button {
+                width: 200px;
             }
         }
     </style>
@@ -298,39 +306,27 @@
         </div>
     </header>
 
-    <section class="landing-section">
+    <section class="hero">
         <div class="background-container">
             <img src="img1.jpg" alt="Background 1" class="background-image">
             <img src="img2.png" alt="Background 2" class="background-image">
             <img src="img3.avif" alt="Background 3" class="background-image">
         </div>
 
-        <main class="content">
-            <div class="hey-container">
-                <div class="hey">
-                    <span class="hey-text"></span><span class="comma">,</span><span class="typing-cursor"></span>
-                </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Cherishing what makes us humans.</h1>
+            <div class="button-container">
+                <a href="join.html" class="button primary">join</a>
+                <a href="fund.html" class="button secondary">fund</a>
             </div>
-
-            <div class="text-wrapper">
-                <div class="text-1">
-                    C is a cultural institution and fund of builders, artists, doers and thinkers that aims to support global institutions, researchers, organisations, leaders and local governments during the ongoing transitional period of building AGI.
-                </div>
-
-                <div class="text-2">
-                    We want to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics.
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="button">join</button>
-                <button class="button">fund</button>
-                <button class="button">explore</button>
-            </div>
-        </main>
+        </div>
     </section>
 
     <section id="explore" class="explore-section">
+        <!-- Previous explore section content remains the same -->
+        <div class="blur-overlay">
+            <div class="coming-soon-text">more to share soon!</div>
+        </div>
         <div class="explore-header">
             <h2 class="explore-title">Explore</h2>
             <div class="explore-filters">
@@ -357,70 +353,46 @@
             <div class="explore-item"></div>
         </div>
     </section>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-title">Navigate</div>
+                <a href="join.html" class="footer-link">Join</a>
+                <a href="fund.html" class="footer-link">Fund</a>
+                <a href="#explore" class="footer-link">Explore</a>
+                <a href="about.html" class="footer-link">About</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Legal</div>
+                <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                <a href="terms.html" class="footer-link">Terms of Service</a>
+                <a href="impressum.html" class="footer-link">Impressum</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Connect</div>
+                <a href="#" class="footer-link">Twitter</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+                <a href="#" class="footer-link">Instagram</a>
+            </div>
+            <div class="footer-column">
+                <div class="footer-title">Contact</div>
+                <a href="mailto:hello@c.org" class="footer-link">hello@c.org</a>
+                <div class="footer-link">515 Example Street</div>
+                <div class="footer-link">Europe, EU</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 c. All rights reserved.</div>
+            <div>Made with care in Europe</div>
+        </div>
+    </footer>
 
     <script>
+        // Previous JavaScript remains the same
         document.addEventListener('DOMContentLoaded', function() {
-            const hey = document.querySelector('.hey');
-            const heyText = document.querySelector('.hey-text');
-            const comma = document.querySelector('.comma');
-            const textWrapper = document.querySelector('.text-wrapper');
-            const buttonGroup = document.querySelector('.button-group');
-            const cursor = document.querySelector('.typing-cursor');
-
-            // Smooth scroll for explore link
-            document.querySelector('a[href="#explore"]').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector('#explore').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-
-            setTimeout(() => {
-                let text = 'Hey';
-                let index = 0;
-                heyText.style.opacity = '1';
-                
-                function typeChar() {
-                    if (index < text.length) {
-                        heyText.textContent = text.substring(0, index + 1);
-                        index++;
-                        setTimeout(typeChar, 150);
-                    } else {
-                        setTimeout(() => {
-                            comma.style.opacity = '1';
-                            
-                            hey.style.animation = 'popOut 0.3s ease-out';
-                            setTimeout(() => {
-                                comma.style.animation = 'bellJingle 0.8s ease-in-out';
-                                
-                                setTimeout(() => {
-                                    cursor.style.display = 'none';
-                                    textWrapper.classList.add('visible');
-                                    buttonGroup.classList.add('visible');
-                                }, 800);
-                            }, 300);
-                        }, 150);
-                    }
-                }
-
-                typeChar();
-            }, 1000);
-
-            hey.addEventListener('mouseenter', function() {
-                hey.style.animation = 'none';
-                comma.style.animation = 'none';
-                void hey.offsetWidth;
-                hey.style.animation = 'popOut 0.3s ease-out';
-                setTimeout(() => {
-                    comma.style.animation = 'bellJingle 0.8s ease-in-out';
-                }, 300);
-            });
-
-            // Background image carousel
             const backgrounds = document.querySelectorAll('.background-image');
             let currentBg = 0;
             
-            // Initial load
             backgrounds[0].classList.add('active');
             
             function changeBackground() {
@@ -429,7 +401,16 @@
                 backgrounds[currentBg].classList.add('active');
             }
             
-            setInterval(changeBackground, 120000);
+            setInterval(changeBackground, 50000);
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
         });
     </script>
 </body>
