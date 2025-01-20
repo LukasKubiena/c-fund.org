@@ -149,7 +149,8 @@
             gap: 60px;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            padding: 20px 0;  /* Add vertical padding */
         }
 
         .section.visible {
@@ -169,6 +170,7 @@
             margin: 0;
             width: 200px;
             flex-shrink: 0;
+            padding-top: 8px;  /* Align with first line of text */
         }
 
         .text-content {
@@ -179,14 +181,17 @@
         .origin-content {
             width: 100%;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);  /* Changed from 4 to 2 columns */
+            gap: 40px;  /* Increased gap between paragraphs */
+            max-width: 800px;  /* Limit maximum width for better readability */
         }
 
         .origin-paragraph {
-            grid-column: span 2;
+            grid-column: span 1;  /* Each paragraph takes one column instead of two */
             margin: 0;
-            line-height: 1.5;
+            line-height: 1.7;  /* Increased line height for better readability */
+            font-size: 16px;  /* Ensuring consistent font size */
+            color: rgba(0, 0, 0, 0.85);  /* Slightly softer black for better contrast */
         }
 
         .people-grid {
@@ -540,55 +545,45 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Select elements to animate
-            const heroImage = document.querySelector('.about-image');
-            const sections = document.querySelectorAll('.section');
-            const sidebar = document.querySelector('.sidebar');
-
-            // Add visible class to hero image after a short delay
+    <script>document.addEventListener('DOMContentLoaded', () => {
+        // Select elements to animate
+        const heroImage = document.querySelector('.about-image');
+        const sections = document.querySelectorAll('.section');
+        const sidebar = document.querySelector('.sidebar');
+    
+        // Function to add visible class with delay
+        const addVisibleWithDelay = (element, delay) => {
             setTimeout(() => {
-                heroImage.classList.add('visible');
-            }, 100);
-
-            // Add visible class to sidebar
-            setTimeout(() => {
-                sidebar.classList.add('visible');
-            }, 300);
-
-            // Create intersection observer for sections
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                            // Unobserve after animation to save resources
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                },
-                { 
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                }
-            );
-
-            // Observe each section
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-
-            // Smooth scroll for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                element.classList.add('visible');
+            }, delay);
+        };
+    
+        // Base delay for first animation
+        let currentDelay = 100;
+    
+        // Add visible class to hero image
+        addVisibleWithDelay(heroImage, currentDelay);
+        
+        // Add visible class to sidebar
+        currentDelay += 200;
+        addVisibleWithDelay(sidebar, currentDelay);
+    
+        // Add visible class to each section with increasing delays
+        sections.forEach((section, index) => {
+            currentDelay += 200; // Add 200ms delay between each section
+            addVisibleWithDelay(section, currentDelay);
+        });
+    
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
             });
         });
+    });
     </script>
 </body>
 </html>
