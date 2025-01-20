@@ -107,10 +107,12 @@
             filter: grayscale(100%);
             opacity: 0;
             transition: opacity 1s ease;
+            transform-origin: center center;
         }
 
         .background-image.active {
             opacity: 0.6;
+            animation: subtleZoomOut 20s ease-out forwards;
         }
 
         .hero-title {
@@ -183,6 +185,15 @@
             display: flex;
             gap: 20px;
             color: #000000;
+        }
+
+        @keyframes subtleZoomOut {
+            0% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         .explore-grid {
@@ -311,9 +322,7 @@
             <img src="img1.png" alt="Background 1" class="background-image">
             <img src="img2.png" alt="Background 2" class="background-image">
             <img src="img3.avif" alt="Background 3" class="background-image">
-            <img src="img6.jpeg" alt="Background 4" class="background-image">
-            <img src="img8.jpeg" alt="Background 5" class="background-image">
-            <img src="img8.webp" alt="Background 6" class="background-image">
+            <img src="img6.jpeg" alt="Background 4" class="background-image">            <img src="img8.webp" alt="Background 6" class="background-image">
             <img src="img9.webp" alt="Background 7" class="background-image">
         </div>
 
