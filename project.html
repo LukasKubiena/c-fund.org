@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C - Project</title>
+    <style>
+        @font-face {
+            font-family: 'NeueHaasDisplay-Light';
+            src: url('NeueHaasDisplay-Light.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'NeueHaasDisplay-Medium';
+            src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            background: white;
+        }
+
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            right: 0;
+            padding: 20px 80px;
+            background: white;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            text-decoration: none;
+            color: black;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: black;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 80px 60px;
+            display: flex;
+            gap: 80px;
+        }
+
+        .project-image-container {
+            flex: 0 0 60%;
+        }
+
+        .project-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #D9D9D9;
+        }
+
+        .project-content {
+            flex: 0 0 35%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .project-title {
+            font-size: 32px;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            margin: 0;
+        }
+
+        .funding-stats {
+            margin: 40px 0;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 4px;
+        }
+
+        .funding-amount {
+            font-size: 24px;
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            margin-bottom: 8px;
+        }
+
+        .funding-goal {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            margin-bottom: 16px;
+        }
+
+        .progress-fill {
+            width: 75%;
+            height: 100%;
+            background: #000;
+        }
+
+        .funding-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .project-description {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 16px;
+            background: #DADADA;
+            border: none;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            transition: opacity 0.3s ease;
+        }
+
+        .action-button:hover {
+            opacity: 0.8;
+        }
+
+        .meta-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .meta-link {
+            color: black;
+            text-decoration: none;
+        }
+
+        .project-details {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 80px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .details-text {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .details-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #D9D9D9;
+            margin-bottom: 20px;
+        }
+
+        .details-section {
+            margin-bottom: 60px;
+        }
+
+        .details-subtitle {
+            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                padding: 100px 24px 40px;
+            }
+
+            .project-image-container,
+            .project-content {
+                flex: 0 0 100%;
+            }
+
+            .project-details {
+                padding: 40px 24px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">c</a>
+            <div class="nav-links">
+                <a href="join.html" class="nav-link">join</a>
+                <a href="fund.html" class="nav-link">fund</a>
+                <a href="index.html#explore" class="nav-link">explore</a>
+                <a href="about.html" class="nav-link">about</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="project-image-container">
+            <div class="project-image"></div>
+        </div>
+        
+        <div class="project-content">
+            <h1 class="project-title">Project</h1>
+            
+            <div class="funding-stats">
+                <div class="funding-amount">€75,000</div>
+                <div class="funding-goal">pledged of €100,000 goal</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="funding-meta">
+                    <span>324 backers</span>
+                    <span>15 days to go</span>
+                </div>
+            </div>
+
+            <div class="project-description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu justo nec nisi tincidunt facilisis. 
+                Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; 
+                Praesent vitae felis eget nunc volutpat faucibus. Nulla facilisi. 
+                Donec at diam eget nunc pulvinar lacinia.
+            </div>
+
+            <div class="action-buttons">
+                <a href="#" class="action-button">join</a>
+                <a href="#" class="action-button">fund</a>
+                <a href="#" class="action-button">follow</a>
+            </div>
+
+        </div>
+    </main>
+
+    <section class="project-details">
+        <div class="details-section">
+            <h2 class="details-subtitle">About the Project</h2>
+            <div class="details-grid">
+                <div class="details-text">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget felis nec lorem facilisis malesuada. Fusce ut augue nec massa faucibus facilisis. Sed vitae ex sit amet nunc varius tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                    <p>Morbi consectetur, nisi eu aliquam dignissim, nisl nisi lacinia nunc, vitae facilisis nisi justo vel massa. Praesent eget vehicula nisi. Donec consectetur vestibulum nisi non facilisis. Nullam eleifend massa non nulla faucibus, sit amet elementum nisi finibus.</p>
+                </div>
+                <div class="details-text">
+                    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h2 class="details-subtitle">Project Gallery</h2>
+            <div class="details-grid">
+                <div>
+                    <div class="details-image"></div>
+                    <p class="details-text">Nunc vehicula, nulla ac aliquam facilisis, lectus nisi condimentum nulla, vitae facilisis nunc nisl eu lectus.</p>
+                </div>
+                <div>
+                    <div class="details-image"></div>
+                    <p class="details-text">Praesent eget vehicula nisi. Donec consectetur vestibulum nisi non facilisis.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h2 class="details-subtitle">Timeline</h2>
+            <div class="details-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget felis nec lorem facilisis malesuada. Fusce ut augue nec massa faucibus facilisis. Sed vitae ex sit amet nunc varius tincidunt.</p>
+                <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Morbi consectetur, nisi eu aliquam dignissim, nisl nisi lacinia nunc, vitae facilisis nisi justo vel massa.</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -146,11 +146,11 @@
 
         .section {
             display: flex;
-            gap: 60px;
+            gap: 80px;  /* Increase gap between title and content */
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
-            padding: 20px 0;  /* Add vertical padding */
+            padding: 40px 0;  /* Increase vertical padding */
         }
 
         .section.visible {
@@ -168,9 +168,10 @@
             font-family: 'NeueHaasDisplay-Medium', sans-serif;
             font-size: 24px;
             margin: 0;
-            width: 200px;
+            width: 160px;  /* Slightly reduce width */
             flex-shrink: 0;
-            padding-top: 8px;  /* Align with first line of text */
+            position: sticky;
+            top: 144px;
         }
 
         .text-content {
@@ -178,21 +179,15 @@
             max-width: 800px;
         }
 
-        .origin-content {
+        .origin-content,
+        .why-content {
             width: 100%;
+            max-width: 800px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);  /* Changed from 4 to 2 columns */
-            gap: 40px;  /* Increased gap between paragraphs */
-            max-width: 800px;  /* Limit maximum width for better readability */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem 40px;
         }
 
-        .origin-paragraph {
-            grid-column: span 1;  /* Each paragraph takes one column instead of two */
-            margin: 0;
-            line-height: 1.7;  /* Increased line height for better readability */
-            font-size: 16px;  /* Ensuring consistent font size */
-            color: rgba(0, 0, 0, 0.85);  /* Slightly softer black for better contrast */
-        }
 
         .people-grid {
             display: grid;
@@ -216,6 +211,29 @@
             font-family: 'NeueHaasDisplay-Medium', sans-serif;
             margin: 0;
         }
+        .origin-paragraph {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.85);
+        }
+
+        /* Specific positioning for paragraphs */
+        .origin-paragraph:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .origin-paragraph:nth-child(2) {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .origin-paragraph:nth-child(3) {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
 
         .person-role {
             color: #666666;
@@ -241,6 +259,7 @@
             margin: 0;
             max-width: 800px;
         }
+
 
         .donors-list {
             display: grid;
@@ -328,7 +347,8 @@
 
             .section {
                 flex-direction: column;
-                gap: 20px;
+                gap: 32px;
+                padding: 32px 0;
             }
 
             .sidebar {
@@ -339,6 +359,24 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 gap: 1.5rem;
+            }
+
+
+            .section-title {
+                position: static;
+                width: auto;
+            }
+
+            .origin-content,
+            .why-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+                /* Reset positioning for mobile */
+            .origin-paragraph:nth-child(n) {
+                grid-column: 1;
+                grid-row: auto;
             }
 
             .people-grid,
@@ -366,6 +404,7 @@
             <h1 class="sidebar-title">About</h1>
             <nav class="sidebar-nav">
                 <a href="#origin" class="sidebar-link">Origin</a>
+                <a href="#why" class="sidebar-link">Why?</a>
                 <a href="#people" class="sidebar-link">People</a>
                 <a href="#building" class="sidebar-link">Building</a>
                 <a href="#donors" class="sidebar-link">Donors & Members</a>
@@ -388,7 +427,18 @@
                     <p class="origin-paragraph">Part of this work is to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics. C strives for financial and political independence. — However, we are not a break even business. We are a creative business. If this venture and movement goes bankrupt, it goes bankrupt. Until then we welcome you to join us, no matter as a doner, creative or member of the founding team. Lets get in touch!</p>
                 </div>
             </section>
-
+            <section id="why" class="section">
+                <h2 class="section-title">Why?</h2>
+                <div class="origin-content">
+                    <p class="origin-paragraph">What happens if we create AI that is vastly more capable than humans at every task? What happens when these AI systems can rapidly advance their own capabilities? These are not only theoretical questions anymore, but rather a sentiment echoed by many of the organisations and experts developing these tools. If those creating these technologies are urging us to take seriously the effects they might have on our everyday lives and are asking the public to start discussing them, we should take it seriously.</p>
+                    
+                    <p class="origin-paragraph">Even if there still is uncertainty among experts about how this change will eventually play out, we believe that rather than letting this transition be guided solely by tech companies or existing power structures, it presents not only a necessary but also an exciting opportunity for the public - us workers, builders, artists, educators, thinkers, doers - to come together and explore how we want our future with these powerful tools to look.</p>
+                    
+                    <p class="origin-paragraph">How are we going to find meaning when AI continues to develop so rapidly? How can we evolve our economy, work and overall society to adapt to this change as it is happening? How can we preserve and nurture some of our most important human values - safety, connection, purpose and expression in times where we live alongside tools vastly smarter than us?</p>
+                    
+                    <p class="origin-paragraph">Let's start having these discussions now. They are important and all of us impacted by this change should have a say in how we coexist with these systems.</p>
+                </div>
+            </section>
             <section id="people" class="section">
                 <h2 class="section-title">People</h2>
                 <div class="people-grid">
