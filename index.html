@@ -1,11 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C</title>
+    <title>c</title>
     <style>
-        /* Previous font-face definitions remain the same */
         @font-face {
             font-family: 'NeueHaasDisplay-Light';
             src: url('NeueHaasDisplay-Light.woff2') format('woff2');
@@ -19,8 +19,14 @@
             src: url('NeueHaasDisplay-Thin.woff2') format('woff2');
         }
         
-        body {
+        html, body {
             margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
             background: #000000;
             font-family: 'NeueHaasDisplay-Light', sans-serif;
             color: white;
@@ -34,7 +40,7 @@
             height: 64px;
             z-index: 100;
             background: transparent;
-            top: 20px; /* Adjust this value as needed */
+            top: 20px;
             opacity: 0;
             transform: translateY(-20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
@@ -83,8 +89,8 @@
             height: 100vh;
             width: 100%;
             display: flex;
-            align-items: flex-end; /* Changed to align bottom */
-            padding: 0; /* Remove this padding */
+            align-items: flex-end;
+            padding: 0;
         }
 
         .hero-content {
@@ -126,10 +132,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%);
+            filter: grayscale(100%) contrast(1.02);
             opacity: 0;
             transition: opacity 1s ease;
             transform-origin: center center;
+            mix-blend-mode: luminosity;
         }
 
         .background-image.active {
@@ -140,10 +147,10 @@
         .hero-title {
             font-size: 36px;
             font-family: 'NeueHaasDisplay-Thin', sans-serif;
-            font-weight: 100; /* Made much thinner */
+            font-weight: 100;
             margin-bottom: 40px;
             max-width: 600px;
-            letter-spacing: -0.02em; /* Added slight letter spacing adjustment */
+            letter-spacing: -0.02em;
         }
 
         .button-container {
@@ -181,32 +188,16 @@
             opacity: 1;
         }
 
-        /* Previous explore section styles remain the same */
-        .explore-section {
-            padding: 80px 20px;
-            background: #ffffff;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        .explore-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto 40px;
-        }
-
-        .explore-title {
-            font-size: 32px;
-            color: #000000;
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-        }
-
-        .explore-filters {
-            display: flex;
-            gap: 20px;
-            color: #000000;
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.12;
+            z-index: 1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         @keyframes subtleZoomOut {
@@ -218,101 +209,17 @@
             }
         }
 
-        .explore-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .explore-item {
-            aspect-ratio: 1;
-            background: #D9D9D9;
-        }
-
-        .blur-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .coming-soon-text {
-            color: rgb(0, 0, 0);
-            font-size: 14px;
-            letter-spacing: 0.5px;
-        }
-
-        .footer {
-        background: #000000;
-        padding: 80px 80px;
-        color: white;
-        font-family: 'NeueHaasDisplay-Light', sans-serif;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .footer-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .footer-link {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 60px auto 0;
-            padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
         @media screen and (max-width: 1024px) {
-            .hero {
-                padding: 0; /* Remove this padding */
+            .nav-content {
+                padding: 0 20px;
             }
-
+            
+            .hero-content {
+                padding: 0 20px 60px 20px;
+            }
 
             .hero-title {
-                font-size: 36px;
-            }
-
-            .explore-grid {
-                grid-template-columns: repeat(2, 1fr);
+                font-size: 28px;
             }
 
             .button-container {
@@ -321,20 +228,21 @@
             }
 
             .button {
-                width: 200px;
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
+    <div class="grain-overlay"></div>
+    
     <header class="header">
         <div class="nav-content">
-            <a href="index.html" class="logo">c</a>
+            <a href="#" class="logo">c</a>
             <nav class="nav-links">
-                <a href="join.html" class="nav-link">join</a>
-                <a href="fund.html" class="nav-link">fund</a>
-                <a href="#explore" class="nav-link">explore</a>
-                <a href="about.html" class="nav-link">about</a>
+                <a href="mailto:join@c.org" class="nav-link">join</a>
+                <a href="mailto:fund@c.org" class="nav-link">fund</a>
+                <a href="c-manifesto.pdf" class="nav-link" download>about</a>
             </nav>
         </div>
     </header>
@@ -344,132 +252,60 @@
             <img src="img1.png" alt="Background 1" class="background-image">
             <img src="img2.png" alt="Background 2" class="background-image">
             <img src="img3.avif" alt="Background 3" class="background-image">
-            <img src="img6.jpeg" alt="Background 4" class="background-image">           
-            <img src="img10.jpg" alt="Background 6" class="background-image">
-            <img src="img9.webp" alt="Background 7" class="background-image">
+            <img src="img4.jpg" alt="Background 4" class="background-image">
+            <img src="img5.jpg" alt="Background 5" class="background-image">           
+            <img src="img6.jpeg" alt="Background 6" class="background-image">
+            <img src="img7.jpg" alt="Background 7" class="background-image">
+            <img src="img8.jpg" alt="Background 8" class="background-image">
         </div>
 
         <div class="hero-content">
             <h1 class="hero-title">Cherishing what makes us humans.</h1>
             <div class="button-container">
-                <a href="join.html" class="button primary">join</a>
-                <a href="fund.html" class="button secondary">fund</a>
+                <a href="mailto:join@c.org" class="button primary">join</a>
+                <a href="mailto:fund@c.org" class="button secondary">fund</a>
             </div>
         </div>
     </section>
-
-    <section id="explore" class="explore-section">
-        <!-- Previous explore section content remains the same -->
-<!--         <div class="blur-overlay">
-            <div class="coming-soon-text">more to share soon!</div>
-        </div> -->
-        <div class="explore-header">
-            <h2 class="explore-title">Explore</h2>
-            <div class="explore-filters">
-                <span>Projects</span>
-                <span>Events</span>
-                <span>Bounties</span>
-                <span>Petition</span>
-                <span>Teams</span>
-                <span>Individuals</span>
-            </div>
-        </div>
-        <div class="explore-grid">
-            <a href="project.html" class="explore-item" style="text-decoration: none; cursor: pointer; transition: opacity 0.3s ease;">
-                <div style="width: 100%; height: 100%; background: #D9D9D9; display: flex; align-items: center; justify-content: center; color: #000;">
-                    Project 1
-                </div>
-            </a>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-            <div class="explore-item"></div>
-        </div>
-    </section>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <div class="footer-title">Navigate</div>
-                <a href="join.html" class="footer-link">Join</a>
-                <a href="fund.html" class="footer-link">Fund</a>
-                <a href="#explore" class="footer-link">Explore</a>
-                <a href="about.html" class="footer-link">About</a>
-            </div>
-            <div class="footer-column">
-                <div class="footer-title">Legal</div>
-                <a href="privacy.html" class="footer-link">Privacy Policy</a>
-                <a href="terms.html" class="footer-link">Terms of Service</a>
-                <a href="impressum.html" class="footer-link">Impressum</a>
-            </div>
-            <div class="footer-column">
-                <div class="footer-title">Connect</div>
-                <a href="#" class="footer-link">Twitter</a>
-                <a href="#" class="footer-link">LinkedIn</a>
-                <a href="#" class="footer-link">Instagram</a>
-            </div>
-            <div class="footer-column">
-                <div class="footer-title">Contact</div>
-                <a href="mailto:hello@c.org" class="footer-link">hello@c.org</a>
-                <div class="footer-link">Vienna</div>
-                <div class="footer-link">Europe, EU</div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div>© 2025 c. All rights reserved.</div>
-            <div>Made with care in Europe</div>
-        </div>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const backgrounds = document.querySelectorAll('.background-image');
-        const header = document.querySelector('.header');
-        const heroContent = document.querySelector('.hero-content');
-        const backgroundContainer = document.querySelector('.background-container');
-        let currentBg = 0;
-        
-        // Initial background setup
-        backgrounds[0].classList.add('active');
-        
-        // Sequence the animations
-        setTimeout(() => {
-            backgroundContainer.classList.add('visible');
-        }, 100);
+            const backgrounds = document.querySelectorAll('.background-image');
+            const header = document.querySelector('.header');
+            const heroContent = document.querySelector('.hero-content');
+            const backgroundContainer = document.querySelector('.background-container');
+            let currentBg = 0;
+            
+            // Initial background setup
+            backgrounds[0].classList.add('active');
+            
+            // Sequence the animations
+            setTimeout(() => {
+                backgroundContainer.classList.add('visible');
+            }, 100);
 
-        setTimeout(() => {
-            header.classList.add('visible');
-        }, 300);
+            setTimeout(() => {
+                header.classList.add('visible');
+            }, 300);
 
-        setTimeout(() => {
-            heroContent.classList.add('visible');
-        }, 500);
-        
-        // Background rotation function
-        function changeBackground() {
-            backgrounds[currentBg].classList.remove('active');
-            currentBg = (currentBg + 1) % backgrounds.length;
-            backgrounds[currentBg].classList.add('active');
-        }
-        
-        setInterval(changeBackground, 20000);
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            setTimeout(() => {
+                heroContent.classList.add('visible');
+            }, 500);
+            
+            // Background rotation function
+            function changeBackground() {
+                backgrounds[currentBg].classList.remove('active');
+                currentBg = (currentBg + 1) % backgrounds.length;
+                backgrounds[currentBg].classList.add('active');
+            }
+            
+            setInterval(changeBackground, 20000);
+            
+            // Prevent scrolling
+            document.body.addEventListener('touchmove', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+            }, { passive: false });
         });
-    });
     </script>
 </body>
 </html>
