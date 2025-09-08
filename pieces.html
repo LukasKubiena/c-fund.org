@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join - c</title>
+    <title>Pieces - c</title>
     <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
@@ -117,50 +117,44 @@
             color: #000;
         }
 
-        .join-content {
-            max-width: 600px;
+        .pieces-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 80px;
         }
 
-        .join-text {
+        .piece-section {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 40px;
+        }
+
+        .piece-title {
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #000;
+        }
+
+        .piece-description {
             font-size: 18px;
             line-height: 1.6;
-            color: #1a1a1a;
+            color: #666;
             margin-bottom: 32px;
         }
 
-        .join-text:last-of-type {
-            margin-bottom: 48px;
-        }
-
-        .contact-info {
-            background: #fafafa;
-            padding: 32px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .contact-title {
-            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #000;
-        }
-
-        .contact-email {
+        .piece-content {
             font-size: 16px;
-            color: #666;
-            margin-bottom: 8px;
+            line-height: 1.6;
+            color: #1a1a1a;
         }
 
-        .contact-email a {
-            color: #000;
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .piece-content p {
+            margin-bottom: 24px;
         }
 
-        .contact-email a:hover {
-            color: #666;
+        .piece-content p:last-child {
+            margin-bottom: 0;
         }
 
         /* Footer */
@@ -188,12 +182,16 @@
                 margin-bottom: 48px;
             }
 
-            .nav-links {
-                gap: 1.5rem;
+            .piece-title {
+                font-size: 28px;
             }
 
-            .contact-info {
-                padding: 24px;
+            .pieces-grid {
+                gap: 60px;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
             }
         }
     </style>
@@ -204,9 +202,9 @@
         <div class="nav-content">
             <a href="index.html" class="logo">c</a>
             <nav class="nav-links">
-                <a href="join.html" class="nav-link active">join</a>
+                <a href="join.html" class="nav-link">join</a>
                 <a href="fund.html" class="nav-link">fund</a>
-                <a href="pieces.html" class="nav-link">pieces</a>
+                <a href="pieces.html" class="nav-link active">pieces</a>
                 <a href="about.html" class="nav-link">about</a>
             </nav>
         </div>
@@ -214,17 +212,26 @@
 
     <!-- Main Content -->
     <div class="main-container">
-        <h1 class="page-title">Join</h1>
+        <h1 class="page-title">Pieces</h1>
         
-        <div class="join-content">
-            <p class="join-text">We're always looking for passionate individuals who share our vision of using art, science, and culture to create a more optimistic future.</p>
-            <p class="join-text">Whether you're a creative professional, researcher, designer, writer, or simply someone who believes in the power of interdisciplinary collaboration, we'd love to hear from you.</p>
-            <p class="join-text">Join us in building something meaningful together.</p>
-            
-            <div class="contact-info">
-                <h3 class="contact-title">Get in touch</h3>
-                <div class="contact-email">
-                    <a href="mailto:join@c.org">join@c.org</a>
+        <div class="pieces-grid">
+            <div class="piece-section">
+                <h2 class="piece-title">Präsenzkultur</h2>
+                <p class="piece-description">A new cultural movement focused on presence and meaningful connection.</p>
+                <div class="piece-content">
+                    <p>Präsenzkultur represents our vision for a cultural movement that prioritizes authentic presence over digital distraction. In a world increasingly dominated by virtual interactions and surface-level connections, we believe in the power of genuine, in-person experiences that foster deep understanding and meaningful relationships.</p>
+                    <p>This movement encompasses various forms of artistic expression, from immersive installations to community-driven events, all designed to bring people together in shared moments of presence and awareness.</p>
+                    <p>Through Präsenzkultur, we aim to create spaces where technology serves human connection rather than replacing it, where art becomes a bridge between individuals and communities, and where culture becomes a force for positive social change.</p>
+                </div>
+            </div>
+
+            <div class="piece-section">
+                <h2 class="piece-title">Healing</h2>
+                <p class="piece-description">Art and science working together to promote healing and well-being.</p>
+                <div class="piece-content">
+                    <p>Our Healing initiative explores the intersection of art, science, and therapeutic practice. We believe that creative expression and scientific understanding can work together to promote mental, emotional, and physical well-being.</p>
+                    <p>Through collaborative projects with healthcare professionals, researchers, and artists, we develop innovative approaches to healing that combine evidence-based practices with creative methodologies. This includes everything from art therapy programs to research into the neurological effects of aesthetic experiences.</p>
+                    <p>Healing represents our commitment to using our collective expertise to address some of the most pressing challenges in mental health and well-being, creating tools and experiences that can genuinely help people navigate difficult times and find paths to recovery and growth.</p>
                 </div>
             </div>
         </div>

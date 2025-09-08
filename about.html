@@ -3,51 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C - About</title>
+    <title>About - c</title>
+    <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="NeueHaasDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
     <style>
         @font-face {
             font-family: 'NeueHaasDisplay-Light';
             src: url('NeueHaasDisplay-Light.woff2') format('woff2');
+            font-display: swap;
         }
         @font-face {
             font-family: 'NeueHaasDisplay-Medium';
             src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'NeueHaasDisplay-Thin';
+            src: url('NeueHaasDisplay-Thin.woff2') format('woff2');
+            font-display: swap;
+        }
+        
+        :root {
+            --content-width: 1400px;
+            --nav-height: 64px;
+            --page-padding: max(5vw, 24px);
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
         }
         
         body {
-            margin: 0;
             background: #ffffff;
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
-            color: black;
-            line-height: 1.5;
+            font-family: 'NeueHaasDisplay-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -40px;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.9);
-            z-index: -1;
+        /* Font loading optimization */
+        .fonts-loading {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
-        .header {
+        .fonts-loaded {
+            font-family: 'NeueHaasDisplay-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        /* Navigation */
+        .nav-bar {
             position: fixed;
-            top: 20px;
+            top: 0;
             left: 0;
             right: 0;
-            height: 64px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             z-index: 100;
-            background: rgba(255, 255, 255, 0.9);
         }
 
         .nav-content {
-            max-width: 1400px;
+            max-width: var(--content-width);
             margin: 0 auto;
-            padding: 0 80px;
+            padding: 0 var(--page-padding);
             height: 100%;
             display: flex;
             justify-content: space-between;
@@ -57,8 +78,8 @@
         .logo {
             font-size: 24px;
             text-decoration: none;
-            color: black;
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            color: #1a1a1a;
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         .nav-links {
@@ -67,574 +88,360 @@
         }
 
         .nav-link {
-            color: black;
+            color: #666;
             text-decoration: none;
             font-size: 16px;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-link:hover {
-            opacity: 0.7;
-        }
-
-        .about-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 144px 80px 60px;
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 60px;
-        }
-
-        .sidebar {
-            position: sticky;
-            top: 144px;
-            height: fit-content;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 1s ease, transform 1s ease;
-            transition-delay: 0.3s;
-        }
-
-        .sidebar.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .sidebar-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 32px;
-            margin: 0 0 40px 0;
-        }
-
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .sidebar-link {
-            color: black;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar-link:hover {
-            opacity: 0.7;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 80px;
-        }
-
-        .about-image {
-            width: 100%;
-            max-height: 500px;
-            object-fit: cover;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .about-image.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section {
-            display: flex;
-            gap: 80px;  /* Increase gap between title and content */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-            padding: 40px 0;  /* Increase vertical padding */
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section:nth-child(1) { transition-delay: 0.2s; }
-        .section:nth-child(2) { transition-delay: 0.4s; }
-        .section:nth-child(3) { transition-delay: 0.6s; }
-        .section:nth-child(4) { transition-delay: 0.8s; }
-        .section:nth-child(5) { transition-delay: 1.0s; }
-
-        .section-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 24px;
-            margin: 0;
-            width: 160px;  /* Slightly reduce width */
-            flex-shrink: 0;
-            position: sticky;
-            top: 144px;
-        }
-
-        .text-content {
-            flex: 1;
-            max-width: 800px;
-        }
-
-        .origin-content,
-        .why-content {
-            width: 100%;
-            max-width: 800px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem 40px;
-        }
-
-
-        .people-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            width: 100%;
-        }
-
-        .person-card {
-            aspect-ratio: 1;
-            background: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .person-info {
-            padding: 12px;
-        }
-
-        .person-name {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            margin: 0;
-        }
-        .origin-paragraph {
-            margin: 0;
-            line-height: 1.7;
-            font-size: 16px;
-            color: rgba(0, 0, 0, 0.85);
-        }
-
-        /* Specific positioning for paragraphs */
-        .origin-paragraph:nth-child(1) {
-            grid-column: 1;
-            grid-row: 1;
-        }
-
-        .origin-paragraph:nth-child(2) {
-            grid-column: 1;
-            grid-row: 2;
-        }
-
-        .origin-paragraph:nth-child(3) {
-            grid-column: 2;
-            grid-row: 1;
-        }
-
-
-        .person-role {
-            color: #666666;
-            font-size: 14px;
-            margin: 4px 0 0;
-        }
-
-        .building-section {
-            width: 100%;
-        }
-
-        .building-image {
-            width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-            filter: grayscale(100%);
-        }
-
-        .building-description {
-            font-size: 14px;
-            color: #666666;
-            line-height: 1.5;
-            margin: 0;
-            max-width: 800px;
-        }
-
-
-        .donors-list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            width: 100%;
-        }
-
-        .donor-name {
-            color: #666666;
-            font-size: 14px;
-            margin: 0;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .contact-info p {
-            margin: 0;
-            flex: 0 1 auto;
-        }
-
-        .footer {
-            background: #000000;
-            padding: 80px 80px;
-            color: white;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .footer-title {
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .footer-link {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 14px;
             transition: color 0.3s ease;
         }
 
-        .footer-link:hover {
-            color: white;
+        .nav-link:hover {
+            color: #000;
         }
 
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 60px auto 0;
+        .nav-link.active {
+            color: #000;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: calc(var(--nav-height) + 64px) var(--page-padding) 64px;
+        }
+
+        .page-title {
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 64px;
+            color: #000;
+        }
+
+        .about-sections {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 80px;
+        }
+
+        .section {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
         }
 
-        @media screen and (max-width: 1024px) {
-            .about-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 120px 24px 60px;
+        .section-title {
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #000;
+        }
+
+        .section-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #1a1a1a;
+        }
+
+        .section-content p {
+            margin-bottom: 24px;
+        }
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Values List */
+        .values-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .values-list li {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .values-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .value-title {
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .value-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Inspirations */
+        .inspirations-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .inspiration-item {
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .inspiration-item:hover {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: #f5f5f5;
+        }
+
+        .inspiration-name {
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .inspiration-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 24px var(--page-padding);
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --nav-height: 56px;
             }
 
-            .section {
-                flex-direction: column;
-                gap: 32px;
-                padding: 32px 0;
+            .main-container {
+                padding-top: calc(var(--nav-height) + 40px);
             }
 
-            .sidebar {
-                position: static;
+            .page-title {
+                font-size: 36px;
+                margin-bottom: 48px;
             }
 
-            .sidebar-nav {
-                flex-direction: row;
-                flex-wrap: wrap;
+            .section-title {
+                font-size: 28px;
+            }
+
+            .about-sections {
+                gap: 60px;
+            }
+
+            .nav-links {
                 gap: 1.5rem;
             }
 
-
-            .section-title {
-                position: static;
-                width: auto;
-            }
-
-            .origin-content,
-            .why-content {
+            .gallery-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
             }
 
-                /* Reset positioning for mobile */
-            .origin-paragraph:nth-child(n) {
-                grid-column: 1;
-                grid-row: auto;
-            }
-
-            .people-grid,
-            .donors-list {
-                grid-template-columns: repeat(2, 1fr);
+            .inspirations-list {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
-<body>
-    <header class="header">
+<body class="fonts-loading">
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
         <div class="nav-content">
             <a href="index.html" class="logo">c</a>
             <nav class="nav-links">
                 <a href="join.html" class="nav-link">join</a>
                 <a href="fund.html" class="nav-link">fund</a>
-                <a href="blog.html" class="nav-link">blog</a>
-                <a href="index.html#explore" class="nav-link">explore</a>
-                <a href="about.html" class="nav-link">about</a>
+                <a href="pieces.html" class="nav-link">pieces</a>
+                <a href="about.html" class="nav-link active">about</a>
             </nav>
         </div>
-    </header>
+    </nav>
 
-    <div class="about-container">
-        <aside class="sidebar">
-            <h1 class="sidebar-title">About</h1>
-            <nav class="sidebar-nav">
-                <a href="#origin" class="sidebar-link">Origin</a>
-                <a href="#why" class="sidebar-link">Why?</a>
-                <a href="#people" class="sidebar-link">People</a>
-                <a href="#building" class="sidebar-link">Building</a>
-                <a href="#donors" class="sidebar-link">Donors & Members</a>
-                <a href="#contact" class="sidebar-link">Contact</a>
-            </nav>
-        </aside>
+    <!-- Main Content -->
+    <div class="main-container">
+        <h1 class="page-title">About</h1>
+        
+        <div class="about-sections">
+            <!-- Story Section -->
+            <div class="section">
+                <h2 class="section-title">Story</h2>
+                <div class="section-content">
+                    <p>We always felt there is a lot going on in the world. Some 3 years ago however, Leon Cosimo and Lukas, three close friends came together to think about how to best contribute to productive solutions to the issues we saw in society. So together, we birthed the idea to funding a creative collective focussed on using art, crafts, science and culture as a way to create a path to a better future.</p>
+                    <p>We all had a deep passion and care for the arts and creative endeavours from a very young age, being designers actors and entrepreneurs ourself. We saw a huge opportunity for an interdisciplinary effort to emerge in our hometown and one of the cultural capitals of the world - Vienna - to make it possible for us to believe in a positive future again.</p>
+                    <p>Inspired by Vienna's Secession and other cultural movements of the past, we founded C as response to growing societal change, tension, and a silod and fragmented cultural and creative landscape we all feel everyday, be it in social media, the tense geopolitical landscape or the news headlines we read everyday.</p>
+                    <p>Very quickly the name c emerged, a anlehnung an Schiles idea for a kunstfond "K", and based on the shape of the body of fornix - a part of the brain thought to play a major role in human creativity.</p>
+                    <p><strong>Connection.<br>Collaboration.<br>Craft.</strong></p>
+                    <p>Many values we stand to happened to perfectly align with the name.</p>
+                    <p>We believe that art & science working closely together, can be a source of optimism and hope for our future. We want to communicate this case for optimism to the wider public through our and other's work.</p>
+                    <p>We are striving for scientific & artistic excellence throughout this pursuit. To that end, we do not shy away from new technologies, but also won't abandon the rich culture and methods from the past for tasteless platforms and tools.</p>
+                    <p>In our spaces collaborative and interdisciplinary craftsmanship, science & art are embraced, explored, as well as practiced and communicated to the broader public.</p>
+                    <p>We strive for financial and political independence. — However, we are not a break even business. We are a creative institution. If this venture and movement goes bankrupt, it goes bankrupt.</p>
+                    <p>Until then we welcome you to join us, no matter as a doner, creative or member of the founding team. Lets get in touch!</p>
+                </div>
+            </div>
 
-        <main class="main-content">
-            <img src="about-image.avif" alt="Historical group photo" class="about-image">
-            
-            <section id="origin" class="section">
-                <h2 class="section-title">Origin</h2>
-                <div class="origin-content">
-                    <p class="origin-paragraph">C is a new kind of cultural institution and movement of builders, artists, doers and thinkers. We funded c inspired by Vienna's secession in the early 1900s. The founding team of this cultural movement, as you can see in the picture above did xyzzy.</p>
-                    
-                    <p class="origin-paragraph">We believe current times call for a similar movement. AGI is shaping up to be a significant technological and cultural paradigm shift and through our work at the cutting edge of science and art, we hope to gain and publish valuable knowledge with the public, global institutions, researchers, organisations and local governments during the ongoing transitional period of building AGI.</p>
-                    
-                    <p class="origin-paragraph">We are all builders, artists, thinkers and doers that strive for scientific & artistic greatness in our work. Our founding team hence is already busy working on some of above mentioned issues itself. However, next to that we collectively oversee this found and wish to use it to create physical and digital spaces where collaborative and interdisciplinary craftsmanship, science & art are embraced, explored, as well as practiced.</p>
-                    
-                    <p class="origin-paragraph">Part of this work is to connect and engage the public to define together how we want to use and live with this new technology in our individual life's as well as in all the spaces where we meet, such as our communities, work, education, culture and politics. C strives for financial and political independence. — However, we are not a break even business. We are a creative business. If this venture and movement goes bankrupt, it goes bankrupt. Until then we welcome you to join us, no matter as a doner, creative or member of the founding team. Lets get in touch!</p>
+            <!-- Values Section -->
+            <div class="section">
+                <h2 class="section-title">Values</h2>
+                <div class="section-content">
+                    <ul class="values-list">
+                        <li>
+                            <div class="value-title">For all</div>
+                            <div class="value-description">Alltagsprache - We do not want to be intellectualists</div>
+                        </li>
+                        <li>
+                            <div class="value-title">Excellence vs greatness</div>
+                            <div class="value-description">We pursue excellence over mere greatness, focusing on meaningful impact rather than superficial recognition.</div>
+                        </li>
+                        <li>
+                            <div class="value-title">Working on a positive Zukunftsbild</div>
+                            <div class="value-description">The future deserves to be imagined as good. We actively work towards creating and communicating positive visions of what's possible.</div>
+                        </li>
+                        <li>
+                            <div class="value-title">Interdisciplinary</div>
+                            <div class="value-description">No single discipline can bring us to that positive future vision. We need to break individual disciplines' long-lasting isolation.</div>
+                        </li>
+                        <li>
+                            <div class="value-title">Form follows function follows feeling</div>
+                            <div class="value-description">Our approach to design and creation prioritizes emotional resonance alongside functional excellence.</div>
+                        </li>
+                        <li>
+                            <div class="value-title">Care</div>
+                            <div class="value-description">Great craftsman have this theory. They say that whether in service industry, product consumer, business or whatever, you immediately sense carelessness—when something is done without care and just poorly executed. So they say, why then shouldn't we be able to also sense when great care is given into something? The quest shouldn't be about making things beautiful but making them with great care. That makes them beautiful, so even an Excel process automation can be beautiful. This is also the perfect counter to perfectionism: Instead of trying to make something perfect, you just put in all the love and care you can. That is something you can control; perfection is not.</div>
+                        </li>
+                        <li>
+                            <div class="value-title">Guiding lights</div>
+                            <div class="value-description">Our goal as a collective is to help society learn to guide itself in a healthy, neutral grown up way. This means we need to be supportive, not assertive - A healthy, well meaning calm, clear adult voice. A minimal frame that holds space without dominating it. For this we foster a love and care for life and all living things.</div>
+                        </li>
+                    </ul>
                 </div>
-            </section>
-            <section id="why" class="section">
-                <h2 class="section-title">Why?</h2>
-                <div class="origin-content">
-                    <p class="origin-paragraph">What happens if we create AI that is vastly more capable than humans at every task? What happens when these AI systems can rapidly advance their own capabilities? These are not only theoretical questions anymore, but rather a sentiment echoed by many of the organisations and experts developing these tools. If those creating these technologies are urging us to take seriously the effects they might have on our everyday lives and are asking the public to start discussing them, we should take it seriously.</p>
-                    
-                    <p class="origin-paragraph">Even if there still is uncertainty among experts about how this change will eventually play out, we believe that rather than letting this transition be guided solely by tech companies or existing power structures, it presents not only a necessary but also an exciting opportunity for the public - us workers, builders, artists, educators, thinkers, doers - to come together and explore how we want our future with these powerful tools to look.</p>
-                    
-                    <p class="origin-paragraph">How are we going to find meaning when AI continues to develop so rapidly? How can we evolve our economy, work and overall society to adapt to this change as it is happening? How can we preserve and nurture some of our most important human values - safety, connection, purpose and expression in times where we live alongside tools vastly smarter than us?</p>
-                    
-                    <p class="origin-paragraph">Let's start having these discussions now. They are important and all of us impacted by this change should have a say in how we coexist with these systems.</p>
-                </div>
-            </section>
-            <section id="people" class="section">
-                <h2 class="section-title">People</h2>
-                <div class="people-grid">
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                    <div class="person-card">
-                        <div class="person-info">
-                            <p class="person-name">Name Name</p>
-                            <p class="person-role">Role Title</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section id="building" class="section">
-                <h2 class="section-title">Building</h2>
-                <div class="building-section">
-                    <img src="c-headquarters.png" alt="C Headquarters" class="building-image">
-                    <p class="building-description">
-                        C Headquarters - The first floor is our publicly accessible cafe, please feel invited to drop by! Here our creatives converse over lunch or hold discussions in the evening over wine. In the patio behind the coffee place is C's atelier as well as our own show- and presentation room. The other floors are a mix of creative spaces, workshops or meeting rooms.
-                    </p>
-                </div>
-            </section>
+            </div>
 
-            <section id="donors" class="section">
-                <h2 class="section-title">Donors & Members</h2>
-                <div class="donors-list">
-                    <p class="donor-name">Emma Thompson</p>
-                    <p class="donor-name">James Wilson</p>
-                    <p class="donor-name">Sofia Rodriguez</p>
-                    <p class="donor-name">Lucas Chen</p>
-                    <p class="donor-name">Oliver Schmidt</p>
-                    <p class="donor-name">Isabella Martinez</p>
-                    <p class="donor-name">Noah Kim</p>
-                    <p class="donor-name">Mia Patel</p>
-                    <p class="donor-name">Ethan Williams</p>
-                    <p class="donor-name">Ava Johnson</p>
-                    <p class="donor-name">Alexander Brown</p>
-                    <p class="donor-name">Charlotte Davis</p>
-                    <p class="donor-name">William Taylor</p>
-                    <p class="donor-name">Sophie Anderson</p>
-                    <p class="donor-name">Benjamin Lee</p>
-                    <p class="donor-name">Olivia White</p>
-                    <p class="donor-name">Samuel Garcia</p>
-                    <p class="donor-name">Victoria Moore</p>
-                    <p class="donor-name">Daniel Jackson</p>
-                    <p class="donor-name">Emily Wilson</p>
-                    <p class="donor-name">Matthew Clark</p>
-                    <p class="donor-name">Sophia Martinez</p>
-                    <p class="donor-name">David Thompson</p>
-                    <p class="donor-name">Emma Rodriguez</p>
-                    <p class="donor-name">Andrew Kim</p>
-                    <p class="donor-name">Grace Chen</p>
-                    <p class="donor-name">Joseph Brown</p>
-                    <p class="donor-name">Zoe Anderson</p>
-                    <p class="donor-name">Thomas Wright</p>
-                    <p class="donor-name">Luna Garcia</p>
-                    <p class="donor-name">Christopher Lee</p>
-                    <p class="donor-name">Julia Taylor</p>
-                    <p class="donor-name">Nathan Davis</p>
-                    <p class="donor-name">Hannah Wilson</p>
-                    <p class="donor-name">Ryan Johnson</p>
-                    <p class="donor-name">Lily Martinez</p>
-                    <p class="donor-name">Jack Thompson</p>
-                    <p class="donor-name">Eva Rodriguez</p>
-                    <p class="donor-name">Michael Chen</p>
-                    <p class="donor-name">Alice Brown</p>
-                </div>
-            </section>
-
-            <section id="contact" class="section">
-                <h2 class="section-title">Contact</h2>
-                <div class="text-content">
-                    <div class="contact-info">
-                        <p>C-Fund</p>
-                        <p>+43 681 10599780</p>
-                        <p>lukasmariakubiena@gmail.com</p>
+            <!-- Gallery/Memories Section -->
+            <div class="section">
+                <h2 class="section-title">Gallery/Memories</h2>
+                <div class="section-content">
+                    <p>A collection of moments, memories, and visual documentation of our journey and the work we create together.</p>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <span>Gallery images coming soon</span>
+                        </div>
+                        <div class="gallery-item">
+                            <span>Gallery images coming soon</span>
+                        </div>
+                        <div class="gallery-item">
+                            <span>Gallery images coming soon</span>
+                        </div>
+                        <div class="gallery-item">
+                            <span>Gallery images coming soon</span>
+                        </div>
+                        <div class="gallery-item">
+                            <span>Gallery images coming soon</span>
+                        </div>
+                        <div class="gallery-item">
+                            <span>Gallery images coming soon</span>
+                        </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+
+            <!-- Inspirations Section -->
+            <div class="section">
+                <h2 class="section-title">Inspirations</h2>
+                <div class="section-content">
+                    <p>Historical movements, artists, and thinkers who have shaped our understanding of art, culture, and society.</p>
+                    <ul class="inspirations-list">
+                        <li class="inspiration-item">
+                            <div class="inspiration-name">Secession - Kellner</div>
+                            <div class="inspiration-description">Vienna's artistic revolution and architectural innovation</div>
+                        </li>
+                        <li class="inspiration-item">
+                            <div class="inspiration-name">Die Brücke</div>
+                            <div class="inspiration-description">German expressionist movement challenging artistic conventions</div>
+                        </li>
+                        <li class="inspiration-item">
+                            <div class="inspiration-name">Bauhaus - Design commissions</div>
+                            <div class="inspiration-description">Revolutionary approach to design education and practice</div>
+                        </li>
+                        <li class="inspiration-item">
+                            <div class="inspiration-name">Hagenbund ring</div>
+                            <div class="inspiration-description">Viennese artist collective promoting modern art</div>
+                        </li>
+                        <li class="inspiration-item">
+                            <div class="inspiration-name">Verein bildender Künstler Wien</div>
+                            <div class="inspiration-description">Association of visual artists fostering creative community</div>
+                        </li>
+                        <li class="inspiration-item">
+                            <div class="inspiration-name">László Moholy-Nagy</div>
+                            <div class="inspiration-description">Pioneer of experimental photography and interdisciplinary art</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-
+    
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <div class="footer-title">Navigate</div>
-                <a href="join.html" class="footer-link">Join</a>
-                <a href="fund.html" class="footer-link">Fund</a>
-                <a href="#explore" class="footer-link">Explore</a>
-                <a href="about.html" class="footer-link">About</a>
-            </div>
-            <div class="footer-column">
-                <div class="footer-title">Legal</div>
-                <a href="privacy.html" class="footer-link">Privacy Policy</a>
-                <a href="terms.html" class="footer-link">Terms of Service</a>
-                <a href="impressum.html" class="footer-link">Impressum</a>
-            </div>
-            <div class="footer-column">
-                <div class="footer-title">Connect</div>
-                <a href="#" class="footer-link">Twitter</a>
-                <a href="#" class="footer-link">LinkedIn</a>
-                <a href="#" class="footer-link">Instagram</a>
-            </div>
-            <div class="footer-column">
-                <div class="footer-title">Contact</div>
-                <a href="mailto:lukasmariakubiena@gmail.com" class="footer-link">lukasmariakubiena@gmail.com</a>
-                <div class="footer-link">Vienna</div>
-                <div class="footer-link">Europe, EU</div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div>© 2025 c. All rights reserved.</div>
-            <div>Made with care in Europe</div>
-        </div>
+        Written in Europe with Care
     </footer>
 
-    <script>document.addEventListener('DOMContentLoaded', () => {
-        // Select elements to animate
-        const heroImage = document.querySelector('.about-image');
-        const sections = document.querySelectorAll('.section');
-        const sidebar = document.querySelector('.sidebar');
-    
-        // Function to add visible class with delay
-        const addVisibleWithDelay = (element, delay) => {
-            setTimeout(() => {
-                element.classList.add('visible');
-            }, delay);
-        };
-    
-        // Base delay for first animation
-        let currentDelay = 100;
-    
-        // Add visible class to hero image
-        addVisibleWithDelay(heroImage, currentDelay);
-        
-        // Add visible class to sidebar
-        currentDelay += 200;
-        addVisibleWithDelay(sidebar, currentDelay);
-    
-        // Add visible class to each section with increasing delays
-        sections.forEach((section, index) => {
-            currentDelay += 200; // Add 200ms delay between each section
-            addVisibleWithDelay(section, currentDelay);
+    <script>
+        // Font loading optimization
+        document.fonts.ready.then(function() {
+            document.body.classList.remove('fonts-loading');
+            document.body.classList.add('fonts-loaded');
         });
-    
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    });
     </script>
 </body>
 </html>

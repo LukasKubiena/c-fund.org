@@ -4,19 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>c</title>
+    <title>c - The art to c</title>
+    <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="NeueHaasDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
     <style>
         @font-face {
             font-family: 'NeueHaasDisplay-Light';
             src: url('NeueHaasDisplay-Light.woff2') format('woff2');
+            font-display: swap;
         }
         @font-face {
             font-family: 'NeueHaasDisplay-Medium';
             src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
+            font-display: swap;
         }
         @font-face {
             font-family: 'NeueHaasDisplay-Thin';
             src: url('NeueHaasDisplay-Thin.woff2') format('woff2');
+            font-display: swap;
+        }
+        
+        :root {
+            --content-width: 1400px;
+            --nav-height: 64px;
+            --page-padding: max(5vw, 24px);
         }
         
         html, body {
@@ -28,8 +40,18 @@
         
         body {
             background: #000000;
-            font-family: 'NeueHaasDisplay-Light', sans-serif;
+            font-family: 'NeueHaasDisplay-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             color: white;
+            line-height: 1.6;
+        }
+
+        /* Font loading optimization */
+        .fonts-loading {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .fonts-loaded {
+            font-family: 'NeueHaasDisplay-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         .header {
@@ -37,7 +59,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 64px;
+            height: var(--nav-height);
             z-index: 100;
             background: transparent;
             top: 20px;
@@ -52,9 +74,9 @@
         }
 
         .nav-content {
-            max-width: 1400px;
+            max-width: var(--content-width);
             margin: 0 auto;
-            padding: 0 80px;
+            padding: 0 var(--page-padding);
             height: 100%;
             display: flex;
             justify-content: space-between;
@@ -65,7 +87,7 @@
             font-size: 24px;
             text-decoration: none;
             color: white;
-            font-family: 'NeueHaasDisplay-Medium', sans-serif;
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         .nav-links {
@@ -96,18 +118,52 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 1400px;
+            max-width: var(--content-width);
             margin: 0 auto;
             width: 100%;
-            padding: 0 80px 80px 80px;
+            padding: 0 var(--page-padding) 80px var(--page-padding);
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100vh;
         }
 
         .hero-content.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .content-wrapper {
+            max-width: 600px;
+        }
+
+        .hero-greeting {
+            font-size: 36px;
+            font-family: 'NeueHaasDisplay-Thin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-weight: 100;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .hero-text:last-of-type {
+            margin-bottom: 40px;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 40px;
+            text-align: left;
         }
 
         .background-container {
@@ -144,14 +200,6 @@
             animation: subtleZoomOut 20s ease-out forwards;
         }
 
-        .hero-title {
-            font-size: 36px;
-            font-family: 'NeueHaasDisplay-Thin', sans-serif;
-            font-weight: 100;
-            margin-bottom: 40px;
-            max-width: 600px;
-            letter-spacing: -0.02em;
-        }
 
         .button-container {
             display: flex;
@@ -218,7 +266,7 @@
                 padding: 0 20px 60px 20px;
             }
 
-            .hero-title {
+            .hero-greeting {
                 font-size: 28px;
             }
 
@@ -233,12 +281,18 @@
         }
     </style>
 </head>
-<body>
+<body class="fonts-loading">
     <div class="grain-overlay"></div>
     
     <header class="header">
         <div class="nav-content">
-            <a href="#" class="logo">c</a>
+            <a href="index.html" class="logo">c</a>
+            <nav class="nav-links">
+                <a href="join.html" class="nav-link">join</a>
+                <a href="fund.html" class="nav-link">fund</a>
+                <a href="pieces.html" class="nav-link">pieces</a>
+                <a href="about.html" class="nav-link">about</a>
+            </nav>
         </div>
     </header>
 
@@ -255,15 +309,33 @@
         </div>
 
         <div class="hero-content">
-            <h1 class="hero-title">To every age its change, to every change its people.</h1>
-            <div class="button-container">
-                <a href="mailto:join@c.org" class="button primary">join</a>
-                <a href="mailto:fund@c.org" class="button secondary">fund</a>
+            <div class="content-wrapper">
+                <h1 class="hero-greeting">Hey,</h1>
+                <p class="hero-text">we are c, a creative collective and production company based in vienna.</p>
+                <p class="hero-text">Our work might have crossed your life previously in the form of / You might have encountered our work in the form art, culture, design, galleries, exhibitions, film, paintings, events and design of all kinds.</p>
+                <p class="hero-text">We believe that art, science & society working closely together, can be a source of optimism and hope for our future. We want to communicate this case for optimism to the wider public through our and other's work.</p>
+                <p class="hero-text">Aside from our own pieces, we are currently helping establish @präsenzkultur as a new cultural movement focussed on x.</p>
+                <p class="hero-text">Why don't you come by and say hello if we care about the same things!</p>
+                <div class="button-container">
+                    <a href="join.html" class="button primary">join</a>
+                    <a href="fund.html" class="button secondary">fund</a>
+                </div>
+                <div class="footer-text">
+                    <p>The c team</p>
+                    <p>Vienna 2025</p>
+                    <p>Written in Europe with (c)are</p>
+                </div>
             </div>
         </div>
     </section>
 
     <script>
+        // Font loading optimization
+        document.fonts.ready.then(function() {
+            document.body.classList.remove('fonts-loading');
+            document.body.classList.add('fonts-loaded');
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const backgrounds = document.querySelectorAll('.background-image');
             const header = document.querySelector('.header');
