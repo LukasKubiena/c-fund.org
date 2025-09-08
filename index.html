@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>c - The art to c</title>
     <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="NeueHaasDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="NeueHaasDisplay-Mediu.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
     <style>
         @font-face {
@@ -16,7 +16,7 @@
         }
         @font-face {
             font-family: 'NeueHaasDisplay-Medium';
-            src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
+            src: url('NeueHaasDisplay-Mediu.woff2') format('woff2');
             font-display: swap;
         }
         @font-face {
@@ -180,7 +180,7 @@
             background-color: white;
             animation: blink 0.7s infinite;
             margin-left: 2px;
-            vertical-align: baseline;
+            vertical-align: bottom;
         }
 
         @keyframes popOut {
@@ -419,10 +419,23 @@
                 backgroundContainer.classList.add('visible');
             }, 100);
 
-            // Start typing animation first (no header/logo yet)
-            setTimeout(() => {
+            // Wait for fonts and first background image before starting typing (no header/logo yet)
+            function waitForImageLoad(img) {
+                return new Promise((resolve) => {
+                    if (img.complete && img.naturalWidth > 0) {
+                        resolve();
+                    } else {
+                        img.addEventListener('load', resolve, { once: true });
+                    }
+                });
+            }
+
+            Promise.all([
+                document.fonts ? document.fonts.ready : Promise.resolve(),
+                waitForImageLoad(backgrounds[0])
+            ]).then(() => {
                 typeHey();
-            }, 500);
+            });
             
             function typeHey() {
                 greetingText.textContent = '';
@@ -471,20 +484,23 @@
                 // Show header and hero content first
                 header.classList.add('visible');
                 heroContent.classList.add('visible');
-                
-                // Then show all content together with a smooth animation
-                setTimeout(() => {
-                    heroTexts.forEach((text) => {
+
+                // Stagger paragraphs one after another, then show footer + buttons together
+                const paragraphDelay = 200; // ms between each paragraph
+                heroTexts.forEach((text, idx) => {
+                    setTimeout(() => {
                         text.style.opacity = '1';
-                        text.style.transition = 'opacity 1s ease-in';
-                    });
-                    
+                        text.style.transition = 'opacity 800ms ease-in';
+                    }, 100 + idx * paragraphDelay);
+                });
+
+                const afterParagraphsDelay = 100 + heroTexts.length * paragraphDelay + 200;
+                setTimeout(() => {
                     footerText.style.opacity = '1';
-                    footerText.style.transition = 'opacity 1s ease-in';
-                    
+                    footerText.style.transition = 'opacity 800ms ease-in';
                     buttonContainer.style.opacity = '1';
-                    buttonContainer.style.transition = 'opacity 1s ease-in';
-                }, 100);
+                    buttonContainer.style.transition = 'opacity 800ms ease-in';
+                }, afterParagraphsDelay);
             }
             
             // Background rotation function
