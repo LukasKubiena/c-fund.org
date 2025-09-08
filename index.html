@@ -137,12 +137,13 @@
         }
 
         .content-wrapper {
-            max-width: 600px;
+            max-width: 720px;
         }
 
         .hero-greeting {
-            font-size: 48px;
+            color: white;
             font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 48px;
             font-weight: 600;
             margin-bottom: 40px;
             letter-spacing: -0.02em;
@@ -164,7 +165,7 @@
             padding-left: 2px;
         }
 
-        .greeting-text {
+        .hey-text {
             display: inline-block;
         }
 
@@ -205,14 +206,15 @@
 
         .hero-text {
             font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 24px;
+            line-height: 1.8;
+            margin-bottom: 20px;
             text-align: left;
             opacity: 0;
+            max-width: 90%;
         }
 
         .hero-text:last-of-type {
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .footer-text {
@@ -222,12 +224,22 @@
             text-align: left;
             opacity: 0;
             display: flex;
-            gap: 16px;
+            gap: 24px;
             align-items: baseline;
             flex-wrap: wrap;
         }
 
-        .footer-text p { margin: 0; }
+        .footer-text p { 
+            margin: 0;
+            position: relative;
+        }
+        
+        .footer-text p:not(:last-child)::after {
+            content: '·';
+            position: absolute;
+            right: -14px;
+            color: rgba(255, 255, 255, 0.4);
+        }
 
         .button-container {
             display: flex;
@@ -376,7 +388,7 @@
         <div class="hero-content">
             <div class="content-wrapper">
                 <h1 class="hero-greeting">
-                    <span class="greeting-text"></span><span class="comma">,</span><span class="typing-cursor"></span>
+                    <span class="hey-text"></span><span class="comma">,</span><span class="typing-cursor"></span>
                 </h1>
                 <p class="hero-text">we are c, a creative collective and production company based in vienna.</p>
                 <p class="hero-text">Our work might have crossed your life previously in the form of / You might have encountered our work in the form art, culture, design, galleries, exhibitions, film, paintings, events and design of all kinds.</p>
@@ -409,7 +421,7 @@
             const heroContent = document.querySelector('.hero-content');
             const backgroundContainer = document.querySelector('.background-container');
             const greeting = document.querySelector('.hero-greeting');
-            const greetingText = document.querySelector('.greeting-text');
+            const heyText = document.querySelector('.hey-text');
             const comma = document.querySelector('.comma');
             const cursor = document.querySelector('.typing-cursor');
             const heroTexts = document.querySelectorAll('.hero-text');
@@ -444,22 +456,14 @@
             });
             
             function typeHey() {
-                greetingText.textContent = '';
+                heyText.textContent = '';
                 comma.style.opacity = '0';
                 let text = 'Hey';
                 let index = 0;
-                // Ensure cursor sits right after typed text (before comma) while typing
-                if (cursor && comma && cursor.parentNode !== greeting) {
-                    // no-op
-                }
-                if (cursor && comma) {
-                    greeting.insertBefore(cursor, comma);
-                    cursor.style.display = 'inline-block';
-                }
 
                 function typeChar() {
                     if (index < text.length) {
-                        greetingText.textContent += text[index];
+                        heyText.textContent += text[index];
                         index++;
                         setTimeout(typeChar, 150);
                     } else {
@@ -477,17 +481,16 @@
             }
 
             function playPopOutAnimation() {
+                greeting.style.animation = '';
                 greeting.classList.add('animate');
-                setTimeout(() => {
-                    playCommaAnimation();
-                }, 300);
+                setTimeout(playCommaAnimation, 300);
             }
 
             function playCommaAnimation() {
+                comma.style.animation = 'none';
+                void comma.offsetWidth;
                 comma.style.animation = 'bellJingle 0.8s ease-in-out';
-                setTimeout(() => {
-                    showContent();
-                }, 800);
+                setTimeout(showContent, 800);
             }
 
             function showContent() {
@@ -526,15 +529,15 @@
                 e.preventDefault();
             }, { passive: false });
 
-            // Add click/hover animation (pop + comma jingle)
-            function replayGreetingAnimation() {
+            // Add hover animation exactly like original
+            function playAnimation() {
                 greeting.classList.remove('animate');
                 void greeting.offsetWidth;
                 greeting.classList.add('animate');
             }
 
-            greeting.addEventListener('click', replayGreetingAnimation);
-            greeting.addEventListener('mouseenter', replayGreetingAnimation);
+            greeting.addEventListener('mouseenter', playAnimation);
+            greeting.addEventListener('click', playAnimation);
         });
     </script>
 </body>
