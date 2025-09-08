@@ -141,15 +141,23 @@
         }
 
         .hero-greeting {
-            font-size: 36px;
+            font-size: 48px;
             font-family: 'NeueHaasDisplay-Thin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             font-weight: 100;
             margin-bottom: 40px;
             letter-spacing: -0.02em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .hero-greeting.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .hero-text {
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.6;
             margin-bottom: 24px;
             text-align: left;
@@ -267,7 +275,7 @@
             }
 
             .hero-greeting {
-                font-size: 28px;
+                font-size: 36px;
             }
 
             .button-container {
@@ -316,30 +324,36 @@
                 <p class="hero-text">We believe that art, science & society working closely together, can be a source of optimism and hope for our future. We want to communicate this case for optimism to the wider public through our and other's work.</p>
                 <p class="hero-text">Aside from our own pieces, we are currently helping establish @präsenzkultur as a new cultural movement focussed on x.</p>
                 <p class="hero-text">Why don't you come by and say hello if we care about the same things!</p>
-                <div class="button-container">
-                    <a href="join.html" class="button primary">join</a>
-                    <a href="fund.html" class="button secondary">fund</a>
-                </div>
                 <div class="footer-text">
                     <p>The c team</p>
                     <p>Vienna 2025</p>
                     <p>Written in Europe with (c)are</p>
+                </div>
+                <div class="button-container">
+                    <a href="join.html" class="button primary">join</a>
+                    <a href="fund.html" class="button secondary">fund</a>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        // Font loading optimization
-        document.fonts.ready.then(function() {
-            document.body.classList.remove('fonts-loading');
-            document.body.classList.add('fonts-loaded');
-        });
-
+        // Font loading optimization - hide content until fonts are loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Hide the main content initially
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent) {
+                heroContent.style.opacity = '0';
+            }
+            
+            // Wait for fonts to load
+            document.fonts.ready.then(function() {
+                document.body.classList.remove('fonts-loading');
+                document.body.classList.add('fonts-loaded');
+            });
+            
             const backgrounds = document.querySelectorAll('.background-image');
             const header = document.querySelector('.header');
-            const heroContent = document.querySelector('.hero-content');
             const backgroundContainer = document.querySelector('.background-container');
             let currentBg = 0;
             
@@ -358,6 +372,11 @@
             setTimeout(() => {
                 heroContent.classList.add('visible');
             }, 500);
+
+            setTimeout(() => {
+                const greeting = document.querySelector('.hero-greeting');
+                greeting.classList.add('visible');
+            }, 800);
             
             // Background rotation function
             function changeBackground() {

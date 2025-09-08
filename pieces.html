@@ -242,10 +242,25 @@
     </footer>
 
     <script>
-        // Font loading optimization
-        document.fonts.ready.then(function() {
-            document.body.classList.remove('fonts-loading');
-            document.body.classList.add('fonts-loaded');
+        // Font loading optimization - hide content until fonts are loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide the main content initially
+            const mainContainer = document.querySelector('.main-container');
+            if (mainContainer) {
+                mainContainer.style.opacity = '0';
+            }
+            
+            // Wait for fonts to load
+            document.fonts.ready.then(function() {
+                document.body.classList.remove('fonts-loading');
+                document.body.classList.add('fonts-loaded');
+                
+                // Show the content with a smooth transition
+                if (mainContainer) {
+                    mainContainer.style.transition = 'opacity 0.3s ease';
+                    mainContainer.style.opacity = '1';
+                }
+            });
         });
     </script>
 </body>
