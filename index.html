@@ -172,6 +172,7 @@
         .comma {
             display: inline-block;
             transform-origin: center;
+            opacity: 0;
         }
 
         .typing-cursor {
@@ -388,7 +389,7 @@
         <div class="hero-content">
             <div class="content-wrapper">
                 <h1 class="hero-greeting">
-                    <span class="hey-text"></span><span class="comma">,</span><span class="typing-cursor"></span>
+                    <span class="hey-text"></span><span class="comma">,</span>
                 </h1>
                 <p class="hero-text">we are c, a creative collective and production company based in vienna.</p>
                 <p class="hero-text">Our work might have crossed your life previously in the form of / You might have encountered our work in the form art, culture, design, galleries, exhibitions, film, paintings, events and design of all kinds.</p>
@@ -421,9 +422,8 @@
             const heroContent = document.querySelector('.hero-content');
             const backgroundContainer = document.querySelector('.background-container');
             const greeting = document.querySelector('.hero-greeting');
-            const heyText = document.querySelector('.hey-text');
-            const comma = document.querySelector('.comma');
-            const cursor = document.querySelector('.typing-cursor');
+            let heyText = document.querySelector('.hey-text');
+            let comma = document.querySelector('.comma');
             const heroTexts = document.querySelectorAll('.hero-text');
             const footerText = document.querySelector('.footer-text');
             const buttonContainer = document.querySelector('.button-container');
@@ -452,6 +452,9 @@
                 document.fonts ? document.fonts.ready : Promise.resolve(),
                 waitForImageLoad(backgrounds[0])
             ]).then(() => {
+                // Show hero content (but not header yet)
+                heroContent.classList.add('visible');
+                
                 // Start typing after a delay, just like the original
                 setTimeout(() => {
                     typeHey();
@@ -461,11 +464,11 @@
             function typeHey() {
                 // Clear and setup initial state
                 greeting.innerHTML = '<span class="hey-text"></span><span class="comma">,</span>';
-                heyText = greeting.querySelector('.hey-text');
-                comma = greeting.querySelector('.comma');
+                const newHeyText = greeting.querySelector('.hey-text');
+                const newComma = greeting.querySelector('.comma');
                 
-                heyText.textContent = '';
-                comma.style.opacity = '0';
+                newHeyText.textContent = '';
+                newComma.style.opacity = '0';
                 
                 // Add typing cursor
                 const cursor = document.createElement('span');
@@ -477,22 +480,19 @@
 
                 function typeChar() {
                     if (index < text.length) {
-                        heyText.textContent += text[index];
+                        newHeyText.textContent += text[index];
                         index++;
                         setTimeout(typeChar, 150);
                     } else {
                         setTimeout(() => {
-                            showComma();
+                            newComma.style.opacity = '1';
+                            playPopOutAnimation();
                         }, 100);
                     }
                 }
                 typeChar();
             }
 
-            function showComma() {
-                comma.style.opacity = '1';
-                playPopOutAnimation();
-            }
 
             function playPopOutAnimation() {
                 greeting.style.animation = 'none';
@@ -520,9 +520,8 @@
                     cursor.remove();
                 }
                 
-                // Show header and hero content first
+                // Show header now
                 header.classList.add('visible');
-                heroContent.classList.add('visible');
 
                 // Reveal all content together smoothly
                 setTimeout(() => {
