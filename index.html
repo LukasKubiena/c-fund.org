@@ -231,32 +231,6 @@
             margin-bottom: 48px;
         }
 
-        .footer-text {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 48px;
-            margin-bottom: 32px;
-            text-align: left;
-            opacity: 0;
-            display: flex;
-            gap: 24px;
-            align-items: baseline;
-            flex-wrap: wrap;
-            align-self: flex-start;
-        }
-
-        .footer-text p { 
-            margin: 0;
-            position: relative;
-        }
-        
-        .footer-text p:not(:last-child)::after {
-            content: '·';
-            position: absolute;
-            right: -14px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
         .button-container {
             display: flex;
             gap: 18px;
@@ -387,9 +361,9 @@
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            column-gap: 64px;
-            row-gap: 28px;
+            grid-template-columns: repeat(2, minmax(0, 36ch));
+            column-gap: 56px;
+            row-gap: 24px;
             align-items: start;
         }
 
@@ -481,13 +455,8 @@
                     </div>
                     <div class="col-right">
                         <p class="hero-text">Aside from our own pieces, we are currently helping establish <a href="#">@präsenzkultur</a> as a new cultural movement focussed on x. We are also hosts of the weekly <a href="#">@Möbel Kreis</a> in Das Café.</p>
-                        <p class="hero-text">Why don't you come by and say hello if we care about the same things!</p>
+                        <p class="hero-text">Why don't you come by and say hello if we care about the same things!<br><br>The c team<br>Vienna 2025<br>Written in Europe with (c)are</p>
                     </div>
-                </div>
-                <div class="footer-text">
-                    <p>The c team</p>
-                    <p>Vienna 2025</p>
-                    <p>Written in Europe with (c)are</p>
                 </div>
                 <div class="button-container">
                     <a href="join.html" class="button primary">join</a>
@@ -513,7 +482,6 @@
             let heyText = document.querySelector('.hey-text');
             let comma = document.querySelector('.comma');
             const heroTexts = document.querySelectorAll('.hero-text');
-            const footerText = document.querySelector('.footer-text');
             const buttonContainer = document.querySelector('.button-container');
             let currentBg = 0;
             
@@ -617,8 +585,6 @@
                         text.style.opacity = '1';
                         text.style.transition = 'opacity 800ms ease-in';
                     });
-                    footerText.style.opacity = '1';
-                    footerText.style.transition = 'opacity 800ms ease-in';
                     buttonContainer.style.opacity = '1';
                     buttonContainer.style.transition = 'opacity 800ms ease-in';
                 }, 100);
