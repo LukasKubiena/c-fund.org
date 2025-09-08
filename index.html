@@ -142,8 +142,8 @@
 
         .hero-greeting {
             font-size: 48px;
-            font-family: 'NeueHaasDisplay-Thin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            font-weight: 100;
+            font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-weight: 600;
             margin-bottom: 40px;
             letter-spacing: -0.02em;
             cursor: pointer;
@@ -180,7 +180,7 @@
             background-color: white;
             animation: blink 0.7s infinite;
             margin-left: 2px;
-            vertical-align: bottom;
+            vertical-align: baseline;
         }
 
         @keyframes popOut {
@@ -419,18 +419,10 @@
                 backgroundContainer.classList.add('visible');
             }, 100);
 
-            setTimeout(() => {
-                header.classList.add('visible');
-            }, 300);
-
-            setTimeout(() => {
-                heroContent.classList.add('visible');
-            }, 500);
-
-            // Start typing animation
+            // Start typing animation first (no header/logo yet)
             setTimeout(() => {
                 typeHey();
-            }, 800);
+            }, 500);
             
             function typeHey() {
                 greetingText.textContent = '';
@@ -476,22 +468,23 @@
                     cursor.remove();
                 }
                 
-                heroTexts.forEach((text, index) => {
-                    setTimeout(() => {
+                // Show header and hero content first
+                header.classList.add('visible');
+                heroContent.classList.add('visible');
+                
+                // Then show all content together with a smooth animation
+                setTimeout(() => {
+                    heroTexts.forEach((text) => {
                         text.style.opacity = '1';
                         text.style.transition = 'opacity 1s ease-in';
-                    }, index * 200);
-                });
-
-                setTimeout(() => {
+                    });
+                    
                     footerText.style.opacity = '1';
                     footerText.style.transition = 'opacity 1s ease-in';
-                }, heroTexts.length * 200 + 200);
-
-                setTimeout(() => {
+                    
                     buttonContainer.style.opacity = '1';
                     buttonContainer.style.transition = 'opacity 1s ease-in';
-                }, heroTexts.length * 200 + 400);
+                }, 100);
             }
             
             // Background rotation function
