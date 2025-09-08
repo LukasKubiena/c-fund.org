@@ -221,7 +221,13 @@
             margin-top: 40px;
             text-align: left;
             opacity: 0;
+            display: flex;
+            gap: 16px;
+            align-items: baseline;
+            flex-wrap: wrap;
         }
+
+        .footer-text p { margin: 0; }
 
         .button-container {
             display: flex;
@@ -442,6 +448,14 @@
                 comma.style.opacity = '0';
                 let text = 'Hey';
                 let index = 0;
+                // Ensure cursor sits right after typed text (before comma) while typing
+                if (cursor && comma && cursor.parentNode !== greeting) {
+                    // no-op
+                }
+                if (cursor && comma) {
+                    greeting.insertBefore(cursor, comma);
+                    cursor.style.display = 'inline-block';
+                }
 
                 function typeChar() {
                     if (index < text.length) {
@@ -485,22 +499,17 @@
                 header.classList.add('visible');
                 heroContent.classList.add('visible');
 
-                // Stagger paragraphs one after another, then show footer + buttons together
-                const paragraphDelay = 200; // ms between each paragraph
-                heroTexts.forEach((text, idx) => {
-                    setTimeout(() => {
+                // Reveal all content together smoothly
+                setTimeout(() => {
+                    heroTexts.forEach((text) => {
                         text.style.opacity = '1';
                         text.style.transition = 'opacity 800ms ease-in';
-                    }, 100 + idx * paragraphDelay);
-                });
-
-                const afterParagraphsDelay = 100 + heroTexts.length * paragraphDelay + 200;
-                setTimeout(() => {
+                    });
                     footerText.style.opacity = '1';
                     footerText.style.transition = 'opacity 800ms ease-in';
                     buttonContainer.style.opacity = '1';
                     buttonContainer.style.transition = 'opacity 800ms ease-in';
-                }, afterParagraphsDelay);
+                }, 100);
             }
             
             // Background rotation function
@@ -517,18 +526,15 @@
                 e.preventDefault();
             }, { passive: false });
 
-            // Add click animation
-            greeting.addEventListener('click', function() {
+            // Add click/hover animation (pop + comma jingle)
+            function replayGreetingAnimation() {
                 greeting.classList.remove('animate');
                 void greeting.offsetWidth;
                 greeting.classList.add('animate');
-            });
+            }
 
-            greeting.addEventListener('mouseenter', function() {
-                greeting.classList.remove('animate');
-                void greeting.offsetWidth;
-                greeting.classList.add('animate');
-            });
+            greeting.addEventListener('click', replayGreetingAnimation);
+            greeting.addEventListener('mouseenter', replayGreetingAnimation);
         });
     </script>
 </body>
