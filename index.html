@@ -146,14 +146,61 @@
             font-weight: 100;
             margin-bottom: 40px;
             letter-spacing: -0.02em;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            cursor: pointer;
+            display: inline-block;
+            transform-origin: center;
         }
 
-        .hero-greeting.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .hero-greeting.animate {
+            animation: popOut 0.3s ease-out;
+        }
+
+        .hero-greeting.animate .comma {
+            animation: bellJingle 0.8s ease-in-out 0.3s;
+        }
+
+        .comma-container {
+            display: inline-block;
+            padding-left: 2px;
+        }
+
+        .greeting-text {
+            display: inline-block;
+        }
+
+        .comma {
+            display: inline-block;
+            transform-origin: center;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 1px;
+            height: 1em;
+            background-color: white;
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+            vertical-align: bottom;
+        }
+
+        @keyframes popOut {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bellJingle {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(-8deg); }
+            75% { transform: rotate(6deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
 
         .hero-text {
@@ -161,6 +208,7 @@
             line-height: 1.6;
             margin-bottom: 24px;
             text-align: left;
+            opacity: 0;
         }
 
         .hero-text:last-of-type {
@@ -172,6 +220,13 @@
             color: rgba(255, 255, 255, 0.7);
             margin-top: 40px;
             text-align: left;
+            opacity: 0;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 18px;
+            opacity: 0;
         }
 
         .background-container {
@@ -209,10 +264,6 @@
         }
 
 
-        .button-container {
-            display: flex;
-            gap: 18px;
-        }
 
         .button {
             color: white;
@@ -318,7 +369,9 @@
 
         <div class="hero-content">
             <div class="content-wrapper">
-                <h1 class="hero-greeting">Hey,</h1>
+                <h1 class="hero-greeting">
+                    <span class="greeting-text"></span><span class="comma">,</span><span class="typing-cursor"></span>
+                </h1>
                 <p class="hero-text">we are c, a creative collective and production company based in vienna.</p>
                 <p class="hero-text">Our work might have crossed your life previously in the form of / You might have encountered our work in the form art, culture, design, galleries, exhibitions, film, paintings, events and design of all kinds.</p>
                 <p class="hero-text">We believe that art, science & society working closely together, can be a source of optimism and hope for our future. We want to communicate this case for optimism to the wider public through our and other's work.</p>
@@ -338,23 +391,24 @@
     </section>
 
     <script>
-        // Font loading optimization - hide content until fonts are loaded
+        // Font loading optimization
+        document.fonts.ready.then(function() {
+            document.body.classList.remove('fonts-loading');
+            document.body.classList.add('fonts-loaded');
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Hide the main content initially
-            const heroContent = document.querySelector('.hero-content');
-            if (heroContent) {
-                heroContent.style.opacity = '0';
-            }
-            
-            // Wait for fonts to load
-            document.fonts.ready.then(function() {
-                document.body.classList.remove('fonts-loading');
-                document.body.classList.add('fonts-loaded');
-            });
-            
             const backgrounds = document.querySelectorAll('.background-image');
             const header = document.querySelector('.header');
+            const heroContent = document.querySelector('.hero-content');
             const backgroundContainer = document.querySelector('.background-container');
+            const greeting = document.querySelector('.hero-greeting');
+            const greetingText = document.querySelector('.greeting-text');
+            const comma = document.querySelector('.comma');
+            const cursor = document.querySelector('.typing-cursor');
+            const heroTexts = document.querySelectorAll('.hero-text');
+            const footerText = document.querySelector('.footer-text');
+            const buttonContainer = document.querySelector('.button-container');
             let currentBg = 0;
             
             // Initial background setup
@@ -373,10 +427,72 @@
                 heroContent.classList.add('visible');
             }, 500);
 
+            // Start typing animation
             setTimeout(() => {
-                const greeting = document.querySelector('.hero-greeting');
-                greeting.classList.add('visible');
+                typeHey();
             }, 800);
+            
+            function typeHey() {
+                greetingText.textContent = '';
+                comma.style.opacity = '0';
+                let text = 'Hey';
+                let index = 0;
+
+                function typeChar() {
+                    if (index < text.length) {
+                        greetingText.textContent += text[index];
+                        index++;
+                        setTimeout(typeChar, 150);
+                    } else {
+                        setTimeout(() => {
+                            showComma();
+                        }, 100);
+                    }
+                }
+                typeChar();
+            }
+
+            function showComma() {
+                comma.style.opacity = '1';
+                playPopOutAnimation();
+            }
+
+            function playPopOutAnimation() {
+                greeting.classList.add('animate');
+                setTimeout(() => {
+                    playCommaAnimation();
+                }, 300);
+            }
+
+            function playCommaAnimation() {
+                comma.style.animation = 'bellJingle 0.8s ease-in-out';
+                setTimeout(() => {
+                    showContent();
+                }, 800);
+            }
+
+            function showContent() {
+                if (cursor) {
+                    cursor.remove();
+                }
+                
+                heroTexts.forEach((text, index) => {
+                    setTimeout(() => {
+                        text.style.opacity = '1';
+                        text.style.transition = 'opacity 1s ease-in';
+                    }, index * 200);
+                });
+
+                setTimeout(() => {
+                    footerText.style.opacity = '1';
+                    footerText.style.transition = 'opacity 1s ease-in';
+                }, heroTexts.length * 200 + 200);
+
+                setTimeout(() => {
+                    buttonContainer.style.opacity = '1';
+                    buttonContainer.style.transition = 'opacity 1s ease-in';
+                }, heroTexts.length * 200 + 400);
+            }
             
             // Background rotation function
             function changeBackground() {
@@ -391,6 +507,19 @@
             document.body.addEventListener('touchmove', function(e) {
                 e.preventDefault();
             }, { passive: false });
+
+            // Add click animation
+            greeting.addEventListener('click', function() {
+                greeting.classList.remove('animate');
+                void greeting.offsetWidth;
+                greeting.classList.add('animate');
+            });
+
+            greeting.addEventListener('mouseenter', function() {
+                greeting.classList.remove('animate');
+                void greeting.offsetWidth;
+                greeting.classList.add('animate');
+            });
         });
     </script>
 </body>
