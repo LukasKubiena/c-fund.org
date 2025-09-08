@@ -452,12 +452,26 @@
                 document.fonts ? document.fonts.ready : Promise.resolve(),
                 waitForImageLoad(backgrounds[0])
             ]).then(() => {
-                typeHey();
+                // Start typing after a delay, just like the original
+                setTimeout(() => {
+                    typeHey();
+                }, 2000);
             });
             
             function typeHey() {
+                // Clear and setup initial state
+                greeting.innerHTML = '<span class="hey-text"></span><span class="comma">,</span>';
+                heyText = greeting.querySelector('.hey-text');
+                comma = greeting.querySelector('.comma');
+                
                 heyText.textContent = '';
                 comma.style.opacity = '0';
+                
+                // Add typing cursor
+                const cursor = document.createElement('span');
+                cursor.className = 'typing-cursor';
+                greeting.appendChild(cursor);
+                
                 let text = 'Hey';
                 let index = 0;
 
@@ -481,19 +495,27 @@
             }
 
             function playPopOutAnimation() {
-                greeting.style.animation = '';
+                greeting.style.animation = 'none';
+                void greeting.offsetWidth;
+                greeting.style.animation = 'popOut 0.3s ease-out';
                 greeting.classList.add('animate');
-                setTimeout(playCommaAnimation, 300);
+                setTimeout(() => {
+                    playCommaAnimation();
+                }, 300);
             }
 
             function playCommaAnimation() {
                 comma.style.animation = 'none';
                 void comma.offsetWidth;
                 comma.style.animation = 'bellJingle 0.8s ease-in-out';
-                setTimeout(showContent, 800);
+                setTimeout(() => {
+                    showContent();
+                }, 800);
             }
 
             function showContent() {
+                // Remove typing cursor
+                const cursor = greeting.querySelector('.typing-cursor');
                 if (cursor) {
                     cursor.remove();
                 }
