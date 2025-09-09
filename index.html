@@ -230,7 +230,7 @@
             font-size: 18px;
             line-height: 1.5;
             letter-spacing: -0.005em;
-            margin-bottom: 8px;
+            margin-bottom: 44px;
             text-align: justify;
             opacity: 0;
             max-width: 100%;
@@ -378,8 +378,8 @@
         .hero-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 30ch));
-            column-gap: 32px;
-            row-gap: 12px;
+            column-gap: 44px;
+            row-gap: 10px;
             align-items: start;
         }
 
@@ -387,7 +387,7 @@
         .hero-grid .col-right {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 44px;
         }
 
         @media screen and (max-width: 1024px) {
@@ -594,9 +594,12 @@
             }
 
             function playCommaAnimation() {
-                comma.style.animation = 'none';
-                void comma.offsetWidth;
-                comma.style.animation = 'bellJingle 0.8s ease-in-out';
+                const currentComma = greeting.querySelector('.comma');
+                if (currentComma) {
+                    currentComma.style.animation = 'none';
+                    void currentComma.offsetWidth;
+                    currentComma.style.animation = 'bellJingle 0.8s ease-in-out';
+                }
                 setTimeout(() => {
                     showContent();
                 }, 800);
@@ -640,17 +643,16 @@
             // Ensure hover works even after intro by always retriggering both pop and jingle
             function playHoverAnimation() {
                 // always show comma if it was hidden
-                if (comma) {
-                    comma.style.opacity = '1';
-                }
+                const currentComma = greeting.querySelector('.comma');
+                if (currentComma) currentComma.style.opacity = '1';
                 greeting.classList.remove('animate');
                 void greeting.offsetWidth;
                 greeting.classList.add('animate');
                 // re-run comma jingle every time
-                if (comma) {
-                    comma.style.animation = 'none';
-                    void comma.offsetWidth;
-                    comma.style.animation = 'bellJingle 0.8s ease-in-out';
+                if (currentComma) {
+                    currentComma.style.animation = 'none';
+                    void currentComma.offsetWidth;
+                    currentComma.style.animation = 'bellJingle 0.8s ease-in-out';
                 }
             }
 
