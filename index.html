@@ -228,20 +228,15 @@
 
         .hero-text {
             font-size: 18px;
-            line-height: 1.5;
+            line-height: 1.45;
             letter-spacing: -0.005em;
-            margin-bottom: 44px;
+            margin-bottom: 6px;
             text-align: justify;
             opacity: 0;
             max-width: 100%;
         }
         
-        .hero-text:nth-child(3),
-        .hero-text:nth-child(5) {
-            margin-left: auto;
-            margin-right: 0;
-            text-align: justify;
-        }
+        /* Removed staggered offsets so both columns align consistently */
 
         .hero-text:last-of-type {
             margin-bottom: 24px;
@@ -378,8 +373,8 @@
         .hero-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 30ch));
-            column-gap: 44px;
-            row-gap: 10px;
+            column-gap: 40px;
+            row-gap: 12px;
             align-items: start;
         }
 
@@ -387,7 +382,7 @@
         .hero-grid .col-right {
             display: flex;
             flex-direction: column;
-            gap: 44px;
+            gap: 8px;
         }
 
         @media screen and (max-width: 1024px) {
@@ -412,9 +407,9 @@
                 max-width: 100%;
                 text-align: left;
                 font-size: 16px;
-                line-height: 1.45;
+                line-height: 1.4;
                 letter-spacing: -0.005em;
-                margin-bottom: 12px;
+                margin-bottom: 8px;
             }
 
             .button-container {
@@ -564,6 +559,10 @@
                 cursor.className = 'typing-cursor';
                 greeting.appendChild(cursor);
                 
+                // Update outer references so hover works after intro
+                heyText = newHeyText;
+                comma = newComma;
+
                 let text = 'Hey';
                 let index = 0;
 
@@ -594,12 +593,9 @@
             }
 
             function playCommaAnimation() {
-                const currentComma = greeting.querySelector('.comma');
-                if (currentComma) {
-                    currentComma.style.animation = 'none';
-                    void currentComma.offsetWidth;
-                    currentComma.style.animation = 'bellJingle 0.8s ease-in-out';
-                }
+                comma.style.animation = 'none';
+                void comma.offsetWidth;
+                comma.style.animation = 'bellJingle 0.8s ease-in-out';
                 setTimeout(() => {
                     showContent();
                 }, 800);
@@ -624,6 +620,10 @@
                     buttonContainer.style.opacity = '1';
                     buttonContainer.style.transition = 'opacity 800ms ease-in';
                 }, 100);
+
+                // After content shows, make sure hover always has latest refs
+                heyText = greeting.querySelector('.hey-text') || heyText;
+                comma = greeting.querySelector('.comma') || comma;
             }
             
             // Background rotation function
@@ -643,16 +643,17 @@
             // Ensure hover works even after intro by always retriggering both pop and jingle
             function playHoverAnimation() {
                 // always show comma if it was hidden
-                const currentComma = greeting.querySelector('.comma');
-                if (currentComma) currentComma.style.opacity = '1';
+                if (comma) {
+                    comma.style.opacity = '1';
+                }
                 greeting.classList.remove('animate');
                 void greeting.offsetWidth;
                 greeting.classList.add('animate');
                 // re-run comma jingle every time
-                if (currentComma) {
-                    currentComma.style.animation = 'none';
-                    void currentComma.offsetWidth;
-                    currentComma.style.animation = 'bellJingle 0.8s ease-in-out';
+                if (comma) {
+                    comma.style.animation = 'none';
+                    void comma.offsetWidth;
+                    comma.style.animation = 'bellJingle 0.8s ease-in-out';
                 }
             }
 
