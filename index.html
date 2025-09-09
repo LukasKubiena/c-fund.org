@@ -160,12 +160,14 @@
             font-family: 'NeueHaasDisplay-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             font-size: 48px;
             font-weight: 600;
-            margin-bottom: 10px; /* bring columns closer to Hey */
+            margin-bottom: 10px; /* used on mobile */
             letter-spacing: -0.02em;
             cursor: pointer;
             display: inline-block;
             transform-origin: center;
-            align-self: flex-start;
+            position: absolute;
+            left: var(--page-padding);
+            top: 64px;
         }
 
         .hero-greeting.animate {
@@ -384,6 +386,11 @@
             column-gap: 40px;
             row-gap: 12px;
             align-items: start;
+            position: absolute;
+            top: 50%;
+            left: var(--page-padding);
+            transform: translateY(-50%);
+            right: var(--page-padding);
         }
 
         .hero-grid .col-left,
@@ -404,6 +411,12 @@
                 justify-content: flex-start;
             }
             
+            .hero-greeting {
+                position: static;
+                left: auto;
+                top: auto;
+            }
+
             .content-wrapper {
                 position: static;
                 transform: none;
@@ -416,6 +429,11 @@
             }
             
             .hero-grid {
+                position: static;
+                transform: none;
+                left: auto;
+                right: auto;
+                top: auto;
                 grid-template-columns: 1fr;
                 row-gap: 16px;
             }
@@ -479,13 +497,15 @@
                 </h1>
                 <div class="hero-grid">
                     <div class="col-left">
-                        <p class="hero-text">We are c, a creative collective and production company based in vienna.</p>
-                        <p class="hero-text">Our work might have crossed your life previously in the form of / You might have encountered our work in the form art, culture, design, galleries, exhibitions, film, paintings, events and design of all kinds.</p>
-                        <p class="hero-text">We believe that art, science & society working closely together, can be a source of optimism and hope for our future. We want to communicate this case for optimism to the wider public through our and other's work.</p>
+                        <p class="hero-text">we are c, a creative collective and production company based in Vienna.</p>
+                        <p class="hero-text">You might have encountered our work previously in the form art, culture, design, galleries, exhibitions, film, paintings, events and design of all kinds.</p>
+                        <p class="hero-text">We feel like a lot is happening right now. We all seem a little overwhelmed - by the news, by daily life, by worries about work, family, or just an uncertain future.</p>
+                        <p class="hero-text">We believe that art, science & society working closely together can help us find a way forward.</p>
                     </div>
                     <div class="col-right">
-                        <p class="hero-text">Aside from our own pieces, we are currently helping establish <a href="#">@präsenzkultur</a> as a new cultural movement focussed on x. We are also hosts of the weekly <a href="#">@Möbel Kreis</a> in Das Café.</p>
-                        <p class="hero-text">Why don't you come by and say hello if we care about the same things!<br><br>The c team<br>Vienna 2025<br>Written in Europe with (c)are</p>
+                        <p class="hero-text">Aside from our own pieces, we are currently helping establish <a href="#">@präsenzkultur</a> as a new cultural movement</p>
+                        <p class="hero-text">Why don’t you come by and say hello if we care about the same things!</p>
+                        <p class="hero-text">The c team<br>Vienna 2025<br>Written in Europe with (c)are</p>
                     </div>
                 </div>
                 <div class="button-container">
