@@ -201,9 +201,9 @@
             background-color: white;
             animation: blink 0.7s infinite;
             margin-left: 2px;
-            vertical-align: baseline;
+            vertical-align: text-bottom;
             position: relative;
-            top: -0.12em;
+            top: -0.22em;
         }
 
         @keyframes popOut {
@@ -228,9 +228,9 @@
 
         .hero-text {
             font-size: 18px;
-            line-height: 1.55;
+            line-height: 1.5;
             letter-spacing: -0.005em;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             text-align: justify;
             opacity: 0;
             max-width: 100%;
@@ -378,7 +378,7 @@
         .hero-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 30ch));
-            column-gap: 24px;
+            column-gap: 32px;
             row-gap: 12px;
             align-items: start;
         }
@@ -387,7 +387,7 @@
         .hero-grid .col-right {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 12px;
         }
 
         @media screen and (max-width: 1024px) {
@@ -412,9 +412,9 @@
                 max-width: 100%;
                 text-align: left;
                 font-size: 16px;
-                line-height: 1.5;
+                line-height: 1.45;
                 letter-spacing: -0.005em;
-                margin-bottom: 16px;
+                margin-bottom: 12px;
             }
 
             .button-container {
@@ -637,15 +637,25 @@
                 e.preventDefault();
             }, { passive: false });
 
-            // Add hover animation exactly like original
-            function playAnimation() {
+            // Ensure hover works even after intro by always retriggering both pop and jingle
+            function playHoverAnimation() {
+                // always show comma if it was hidden
+                if (comma) {
+                    comma.style.opacity = '1';
+                }
                 greeting.classList.remove('animate');
                 void greeting.offsetWidth;
                 greeting.classList.add('animate');
+                // re-run comma jingle every time
+                if (comma) {
+                    comma.style.animation = 'none';
+                    void comma.offsetWidth;
+                    comma.style.animation = 'bellJingle 0.8s ease-in-out';
+                }
             }
 
-            greeting.addEventListener('mouseenter', playAnimation);
-            greeting.addEventListener('click', playAnimation);
+            greeting.addEventListener('mouseenter', playHoverAnimation);
+            greeting.addEventListener('click', playHoverAnimation);
         });
     </script>
 </body>
