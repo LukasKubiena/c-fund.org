@@ -639,8 +639,8 @@
             
             // Prevent scrolling
             document.body.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, { passive: false });
+                // Allow passive touch scrolling for performance and to avoid blocking
+            }, { passive: true });
 
             // Ensure hover works even after intro by always retriggering both pop and jingle
             function playHoverAnimation() {
