@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fund - c</title>
     <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="NeueHaasDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="NeueHaasDisplay-Mediu.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
     <style>
         @font-face {
@@ -15,7 +15,7 @@
         }
         @font-face {
             font-family: 'NeueHaasDisplay-Medium';
-            src: url('NeueHaasDisplay-Medium.woff2') format('woff2');
+            src: url('NeueHaasDisplay-Mediu.woff2') format('woff2');
             font-display: swap;
         }
         @font-face {
@@ -100,6 +100,11 @@
 
         .nav-link.active {
             color: #000;
+        }
+
+        /* Temporarily hide selected nav items but keep routes accessible */
+        .nav-link.is-hidden {
+            display: none;
         }
 
         /* Main Content */
@@ -206,8 +211,8 @@
             <nav class="nav-links">
                 <a href="join.html" class="nav-link">join</a>
                 <a href="fund.html" class="nav-link active">fund</a>
-                <a href="pieces.html" class="nav-link">pieces</a>
-                <a href="about.html" class="nav-link">about</a>
+                <a href="pieces.html" class="nav-link is-hidden">pieces</a>
+                <a href="about.html" class="nav-link is-hidden">about</a>
             </nav>
         </div>
     </nav>
