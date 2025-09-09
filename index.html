@@ -120,7 +120,7 @@
             height: 100vh;
             width: 100%;
             display: flex;
-            align-items: flex-end;
+            align-items: stretch;
             padding: 0;
         }
 
@@ -130,15 +130,16 @@
             max-width: var(--content-width);
             margin: 0 auto;
             width: 100%;
-            /* True center on left: equal top/bottom space relative to available viewport (minus navbar) */
-            padding: calc((100vh - var(--nav-height) - 72px - (var(--left-gap-top) + var(--left-gap-bottom))) / 2 + var(--left-gap-top)) var(--page-padding) 72px var(--page-padding);
+            /* Center the main text block vertically on desktop */
+            padding: 0 var(--page-padding);
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            height: calc(100vh - var(--nav-height));
+            justify-content: center;
+            align-items: flex-start; /* keep left-aligned */
+            height: 100vh;
         }
 
         .hero-content.visible {
@@ -249,8 +250,9 @@
             display: flex;
             gap: 18px;
             opacity: 0;
-            align-self: flex-start;
-            margin-top: var(--left-gap-bottom);
+            position: absolute;
+            left: var(--page-padding);
+            bottom: 48px;
         }
 
         .background-container {
@@ -395,6 +397,8 @@
             
             .hero-content {
                 padding: var(--left-gap-top) 20px 60px 20px;
+                height: auto;
+                justify-content: flex-start;
             }
 
             .hero-greeting {
@@ -416,8 +420,10 @@
             }
 
             .button-container {
+                position: static;
                 flex-direction: column;
                 align-items: flex-start;
+                margin-top: var(--left-gap-bottom);
             }
 
             .button {
