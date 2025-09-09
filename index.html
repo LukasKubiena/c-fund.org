@@ -130,8 +130,8 @@
             max-width: var(--content-width);
             margin: 0 auto;
             width: 100%;
-            /* Center area uses absolute centering of inner wrapper from full page top */
-            padding: 0;
+            /* Center area: flex center from full page top to bottom */
+            padding: 0 var(--page-padding);
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
@@ -152,11 +152,7 @@
             display: flex;
             flex-direction: column;
             gap: 0;
-            /* Absolute true-centering from page top */
-            position: absolute;
-            top: 50%;
-            left: var(--page-padding);
-            transform: translateY(-50%);
+            position: static;
         }
 
         .hero-greeting {
@@ -255,6 +251,8 @@
             display: flex;
             gap: 18px;
             opacity: 0;
+            align-self: flex-start;
+            margin-top: var(--left-gap-bottom);
             position: absolute;
             left: var(--page-padding);
             bottom: 48px;
