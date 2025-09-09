@@ -31,7 +31,8 @@
             --content-width: 1400px;
             --nav-height: 64px;
             --page-padding: max(5vw, 24px);
-            --left-block-gap: 24px; /* gap above columns and between columns and buttons */
+            --left-gap-top: 34px; /* space from navbar to Hey/columns */
+            --left-gap-bottom: 34px; /* space from columns to buttons */
         }
         
         html, body {
@@ -129,7 +130,7 @@
             max-width: var(--content-width);
             margin: 0 auto;
             width: 100%;
-            padding: var(--left-block-gap) var(--page-padding) 72px var(--page-padding);
+            padding: var(--left-gap-top) var(--page-padding) 72px var(--page-padding);
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
@@ -248,7 +249,7 @@
             gap: 18px;
             opacity: 0;
             align-self: flex-start;
-            margin-top: var(--left-block-gap);
+            margin-top: var(--left-gap-bottom);
         }
 
         .background-container {
@@ -392,7 +393,7 @@
             }
             
             .hero-content {
-                padding: var(--left-block-gap) 20px 60px 20px;
+                padding: var(--left-gap-top) 20px 60px 20px;
             }
 
             .hero-greeting {
