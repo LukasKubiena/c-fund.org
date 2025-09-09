@@ -137,7 +137,7 @@
             transition: opacity 0.8s ease, transform 0.8s ease;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: flex-start; /* keep left-aligned */
             height: 100vh;
         }
@@ -152,13 +152,7 @@
             display: flex;
             flex-direction: column;
             gap: 0;
-            position: absolute;
-            left: var(--page-padding);
-            right: var(--page-padding);
-            top: calc(var(--edge-inset) + var(--nav-height));
-            bottom: var(--edge-inset);
-            justify-content: center;
-            align-items: flex-start;
+            position: static;
         }
 
         .hero-greeting {
@@ -171,7 +165,9 @@
             cursor: pointer;
             display: inline-block;
             transform-origin: center;
-            position: static;
+            position: absolute;
+            left: var(--page-padding);
+            top: calc(var(--edge-inset) + var(--nav-height));
         }
 
         .hero-greeting.animate {
@@ -390,6 +386,11 @@
             column-gap: 40px;
             row-gap: 12px;
             align-items: start;
+            position: absolute;
+            top: 50%;
+            left: var(--page-padding);
+            transform: translateY(-50%);
+            right: var(--page-padding);
         }
 
         .hero-grid .col-left,
@@ -510,10 +511,10 @@
                         <p class="hero-text">The c team<br>Vienna 2025<br>Written in Europe with (c)are</p>
                     </div>
                 </div>
-            </div>
-            <div class="button-container">
-                <a href="mailto:join@c.com" class="button primary">join</a>
-                <a href="mailto:fund@c.com" class="button secondary">fund</a>
+                <div class="button-container">
+                    <a href="mailto:join@c.com" class="button primary">join</a>
+                    <a href="mailto:fund@c.com" class="button secondary">fund</a>
+                </div>
             </div>
         </div>
     </section>
