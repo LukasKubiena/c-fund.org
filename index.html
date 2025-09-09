@@ -33,6 +33,7 @@
             --page-padding: max(5vw, 24px);
             --left-gap-top: 24px; /* space from navbar to Hey/columns */
             --left-gap-bottom: 24px; /* space from columns to buttons */
+            --edge-inset: 64px; /* equal inset for top navbar and bottom buttons */
         }
         
         html, body {
@@ -60,13 +61,12 @@
 
         .header {
             position: fixed;
-            top: 0;
+            top: var(--edge-inset);
             left: 0;
             right: 0;
             height: var(--nav-height);
             z-index: 100;
             background: transparent;
-            top: 0;
             opacity: 0;
             transform: translateY(-20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
@@ -167,7 +167,7 @@
             transform-origin: center;
             position: absolute;
             left: var(--page-padding);
-            top: 64px;
+            top: calc(var(--edge-inset) + var(--nav-height));
         }
 
         .hero-greeting.animate {
@@ -257,7 +257,7 @@
             margin-top: var(--left-gap-bottom);
             position: absolute;
             left: var(--page-padding);
-            bottom: 48px;
+            bottom: var(--edge-inset);
         }
 
         .background-container {
@@ -405,6 +405,10 @@
                 padding: 0 20px;
             }
             
+            .header {
+                top: 20px;
+            }
+
             .hero-content {
                 padding: var(--left-gap-top) 20px 60px 20px;
                 height: auto;
