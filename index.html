@@ -31,8 +31,8 @@
             --content-width: 1400px;
             --nav-height: 64px;
             --page-padding: max(5vw, 24px);
-            --left-gap-top: 30px; /* space from navbar to Hey/columns */
-            --left-gap-bottom: 42px; /* space from columns to buttons */
+            --left-gap-top: 24px; /* space from navbar to Hey/columns */
+            --left-gap-bottom: 24px; /* space from columns to buttons */
         }
         
         html, body {
@@ -436,8 +436,8 @@
         <div class="nav-content">
             <a href="index.html" class="logo">c</a>
             <nav class="nav-links">
-                <a href="join.html" class="nav-link">join</a>
-                <a href="fund.html" class="nav-link">fund</a>
+                <a href="mailto:join@c.com" class="nav-link">join</a>
+                <a href="mailto:fund@c.com" class="nav-link">fund</a>
                 <a href="pieces.html" class="nav-link is-hidden">pieces</a>
                 <a href="about.html" class="nav-link is-hidden">about</a>
             </nav>
@@ -473,8 +473,8 @@
                     </div>
                 </div>
                 <div class="button-container">
-                    <a href="join.html" class="button primary">join</a>
-                    <a href="fund.html" class="button secondary">fund</a>
+                    <a href="mailto:join@c.com" class="button primary">join</a>
+                    <a href="mailto:fund@c.com" class="button secondary">fund</a>
                 </div>
             </div>
         </div>
@@ -660,7 +660,9 @@
             }
 
             greeting.addEventListener('mouseenter', playHoverAnimation);
-            greeting.addEventListener('click', playHoverAnimation);
+            greeting.addEventListener('click', function(){
+                window.location.href = 'mailto:hello@c.com';
+            });
         });
     </script>
 </body>
