@@ -79,7 +79,7 @@
         .nav-content {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             height: 64px;
         }
 
@@ -341,9 +341,11 @@
         /* Mobile responsive */
         @media screen and (max-width: 968px) {
             .header {
+                padding: 24px 0;
+            }
+
+            .nav-content {
                 padding: 0 24px;
-                max-width: 100%;
-                top: 24px;
             }
 
             .hero-content {
@@ -483,7 +485,7 @@
                     </div>
                     
                     <div class="text-column credits">
-                        <p class="hero-text">The c team<br>Vienna 2025<br>Written in Europe with (c)are</p>
+                        <p class="hero-text">Written in Europe with care<br>Vienna 2025<br>The c team</p>
                     </div>
                 </div>
 
@@ -602,6 +604,13 @@
                 if (cursor) cursor.remove();
                 
                 header.classList.add('visible');
+
+                // Clear inline animations so hover effects retrigger properly
+                greeting.style.animation = '';
+                const commaEl = greeting.querySelector('.comma');
+                if (commaEl) {
+                    commaEl.style.animation = '';
+                }
 
                 setTimeout(() => {
                     heroTexts.forEach(text => {
