@@ -146,7 +146,7 @@
             font-size: 48px;
             font-weight: 500;
             letter-spacing: -0.02em;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
             cursor: pointer;
             display: inline-block;
         }
@@ -245,6 +245,18 @@
         .hero-text a:hover::after {
             transform: scaleX(1);
             transform-origin: bottom left;
+        }
+
+        /* Credits mail link */
+        .credits-mail {
+            margin-top: 1.45em; /* roughly one line */
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .credits-mail.visible { opacity: 1; }
+        .credits-mail a {
+            color: white;
+            text-decoration: underline;
         }
 
         /* Background images */
@@ -356,7 +368,7 @@
 
             .hero-greeting {
                 font-size: 36px;
-                margin-bottom: 24px;
+                margin-bottom: 14px;
             }
 
             .text-grid {
@@ -453,15 +465,7 @@
         </header>
 
         <section class="hero">
-            <div class="background-container">
-                <img src="img/WhatsApp Image 2025-09-01 at 11.09.41.jpeg" alt="" class="background-image">
-                <img src="img/WhatsApp Image 2025-09-01 at 11.09.42.jpeg" alt="" class="background-image">
-                <img src="img/WhatsApp Image 2025-09-01 at 11.09.43.jpeg" alt="" class="background-image">
-                <img src="img/021EAC10-B2D0-4425-B946-91842B4ADB53_1_105_c 1.png" alt="" class="background-image">
-                <img src="img/4E8341CE-B015-46A5-AAE6-E21247D6086E_1_105_c 1.png" alt="" class="background-image">
-                <img src="img/81603DC2-8D9C-4E1B-BD92-FBFE1957F976_1_201_a 1.png" alt="" class="background-image">
-                <img src="img/B37DDF86-748E-4367-BAA5-C794730A190A_1_201_a 1.png" alt="" class="background-image">
-            </div>
+            <div class="background-container"></div>
 
             <div class="hero-content">
                 <h1 class="hero-greeting">
@@ -470,8 +474,8 @@
                 
                 <div class="text-grid">
                     <div class="text-column">
-                        <p class="hero-text">we are c, a creative collective and production company based in Vienna.</p>
-                        <p class="hero-text">You might have encountered our work previously in the form art, culture, design, galleries, exhibitions, film, paintings, events and design of all kinds.</p>
+                        <p class="hero-text">We are c, a creative collective and production company based in Vienna.</p>
+                        <p class="hero-text">You might have encountered our work previously in the form design, galleries, exhibitions, film, paintings, events and art of all kinds.</p>
                     </div>
                     
                     <div class="text-column">
@@ -486,6 +490,7 @@
                     
                     <div class="text-column credits">
                         <p class="hero-text">Written in Europe with care<br>Vienna 2025<br>The c team</p>
+                        <div class="credits-mail"><a href="mailto:hello@c.com">send us a mail</a></div>
                     </div>
                 </div>
 
@@ -504,29 +509,53 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const backgrounds = Array.from(document.querySelectorAll('.background-image'));
+            const backgroundContainer = document.querySelector('.background-container');
+            let backgrounds = [];
             const header = document.querySelector('.header');
             const heroContent = document.querySelector('.hero-content');
-            const backgroundContainer = document.querySelector('.background-container');
             const greeting = document.querySelector('.hero-greeting');
             const siteVeil = document.querySelector('.site-veil');
             const heroTexts = document.querySelectorAll('.hero-text');
             const mobileText = document.querySelector('.mobile-text');
             let currentBg = 0;
+            let preloadedList = [];
+            const columns = Array.from(document.querySelectorAll('.text-grid .text-column:not(.credits)'));
+            const creditsCol = document.querySelector('.text-column.credits');
             
-            // Randomize backgrounds
-            for (let i = backgrounds.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [backgrounds[i], backgrounds[j]] = [backgrounds[j], backgrounds[i]];
+            // Probe for img1..img12 inside img/ folder only
+            const baseNames = Array.from({ length: 12 }, (_, i) => `img${i + 1}`);
+            const exts = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.JPG'];
+            const candidates = [];
+            baseNames.forEach(name => {
+                exts.forEach(ext => {
+                    candidates.push(`img/${name}${ext}`);
+                });
+            });
+
+            function probe(src) {
+                return new Promise(resolve => {
+                    const test = new Image();
+                    test.onload = () => resolve(src);
+                    test.onerror = () => resolve(null);
+                    test.src = src;
+                });
             }
 
-            // Initial setup
-            backgrounds[0].classList.add('active');
-            
-            // Start animations
-            setTimeout(() => {
-                backgroundContainer.classList.add('visible');
-            }, 100);
+            (async function buildAndInject() {
+                const results = await Promise.all(candidates.map(probe));
+                const existing = Array.from(new Set(results.filter(Boolean)));
+                preloadedList = existing.sort(() => Math.random() - 0.5);
+                preloadedList.forEach(src => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.alt = '';
+                    img.className = 'background-image';
+                    backgroundContainer.appendChild(img);
+                });
+                backgrounds = Array.from(document.querySelectorAll('.background-image'));
+                if (backgrounds[0]) backgrounds[0].classList.add('active');
+                setTimeout(() => backgroundContainer.classList.add('visible'), 100);
+            })();
 
             // Wait for assets to load
             function waitForImageLoad(img) {
@@ -541,13 +570,35 @@
 
             Promise.all([
                 document.fonts ? document.fonts.ready : Promise.resolve(),
-                waitForImageLoad(backgrounds[0])
+                new Promise(resolve => {
+                    const check = () => {
+                        const first = document.querySelector('.background-image');
+                        if (first) {
+                            waitForImageLoad(first).then(resolve);
+                        } else {
+                            requestAnimationFrame(check);
+                        }
+                    };
+                    check();
+                })
             ]).then(() => {
                 if (siteVeil) siteVeil.classList.add('is-hidden');
+                // Trigger navbar + columns visibility together
                 heroContent.classList.add('visible');
-                
+                const revealAll = () => {
+                    const toReveal = [
+                        ...Array.from(document.querySelectorAll('.hero-text')),
+                        document.querySelector('.credits-mail')
+                    ].filter(Boolean);
+                    toReveal.forEach(el => el.classList.add('visible'));
+                };
                 setTimeout(() => {
                     typeHey();
+                    // Schedule text reveal slightly after typing starts, matching previous pacing
+                    setTimeout(() => {
+                        revealAll();
+                        balanceColumns();
+                    }, 500);
                 }, 1500);
             });
 
@@ -582,7 +633,7 @@
                     if (index < text.length) {
                         heyText.textContent += text[index];
                         index++;
-                        setTimeout(typeChar, 150);
+                        setTimeout(typeChar, 220);
                     } else {
                         setTimeout(() => {
                             comma.style.opacity = '1';
@@ -616,10 +667,12 @@
                     heroTexts.forEach(text => {
                         text.classList.add('visible');
                     });
+                    const creditsMail = document.querySelector('.credits-mail');
+                    if (creditsMail) creditsMail.classList.add('visible');
                     if (mobileText) {
                         mobileText.classList.add('visible');
                     }
-                }, 100);
+                }, 500);
             }
             
             // Background rotation
@@ -635,6 +688,50 @@
             greeting.addEventListener('click', function() {
                 window.location.href = 'mailto:hello@c.com';
             });
+
+            // Balance the first three columns to equal height by truncating text
+            function balanceColumns() {
+                if (!columns.length) return;
+                const colHeights = columns.map(col => col.getBoundingClientRect().height);
+                const target = Math.max(...colHeights);
+
+                columns.forEach(col => {
+                    let height = col.getBoundingClientRect().height;
+                    if (height > target + 2) {
+                        // truncate last paragraph(s) until fits
+                        const paras = Array.from(col.querySelectorAll('.hero-text'));
+                        for (let i = paras.length - 1; i >= 0 && col.getBoundingClientRect().height > target; i--) {
+                            truncateToHeight(paras[i], target, col);
+                        }
+                    }
+                });
+            }
+
+            function truncateToHeight(paragraph, targetHeight, columnEl) {
+                const original = paragraph.textContent;
+                let text = original;
+                // Binary search truncation for efficiency
+                let left = 0, right = text.length, best = text.length;
+                const ellipsis = '…';
+                while (left <= right) {
+                    const mid = Math.floor((left + right) / 2);
+                    paragraph.textContent = text.slice(0, mid).trim() + ellipsis;
+                    const h = columnEl.getBoundingClientRect().height;
+                    if (h > targetHeight) {
+                        right = mid - 1;
+                    } else {
+                        best = mid;
+                        left = mid + 1;
+                    }
+                }
+                paragraph.textContent = text.slice(0, best).trim() + ellipsis;
+                // If still too tall due to long words, reduce further
+                if (columnEl.getBoundingClientRect().height > targetHeight) {
+                    for (let i = best - 1; i >= 0 && columnEl.getBoundingClientRect().height > targetHeight; i -= 2) {
+                        paragraph.textContent = text.slice(0, i).trim() + ellipsis;
+                    }
+                }
+            }
         });
     </script>
 </body>
