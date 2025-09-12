@@ -373,18 +373,10 @@
                 margin-bottom: 14px;
             }
 
-            .text-grid {
-                display: block;
-            }
-
-            .text-column {
-                display: none;
-            }
-
-            /* Single paragraph for mobile */
-            .text-column:first-child {
-                display: block;
-            }
+            .text-grid { display: block; }
+            .text-column { display: none; }
+            /* Show only the first column on mobile */
+            .text-column:first-child { display: block; }
 
             .text-column:first-child .hero-text {
                 font-size: 16px;
@@ -392,19 +384,9 @@
                 margin-bottom: 20px;
             }
 
-            /* Mobile-only combined text */
+            /* Hide combined mobile paragraph to show only first column */
             .mobile-text {
-                display: block !important;
-                font-size: 16px;
-                line-height: 1.5;
-                letter-spacing: -0.02em;
-                text-align: justify;
-                opacity: 0;
-                transition: opacity 0.8s ease;
-            }
-
-            .mobile-text.visible {
-                opacity: 1;
+                display: none !important;
             }
         }
 
