@@ -354,6 +354,11 @@
 
         /* Mobile responsive */
         @media screen and (max-width: 968px) {
+            html, body { height: auto; overflow: auto; }
+            .container { position: relative; }
+            .hero { height: auto; min-height: 100vh; align-items: flex-start; }
+            .hero-content { position: static; padding: 0 24px; max-width: 100%; margin-bottom: 24px; }
+            .background-container { position: fixed; }
             .header {
                 padding: 24px 0;
             }
