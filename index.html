@@ -357,8 +357,11 @@
             html, body { height: auto; overflow: auto; }
             .container { position: relative; }
             .hero { height: auto; min-height: 100vh; align-items: flex-start; }
-            .hero-content { position: static; padding: 0 24px; max-width: 100%; margin-bottom: 24px; }
+            .hero-content { position: static; padding: 0 24px; max-width: 100%; margin-top: 80px; margin-bottom: 24px; }
             .background-container { position: fixed; }
+            /* Mobile header fixed at top */
+            .header { position: fixed; top: 0; left: 50%; transform: translateX(-50%); padding: 0 24px; height: auto; }
+            .nav-content { height: 56px; }
             .header {
                 padding: 24px 0;
             }
@@ -382,6 +385,8 @@
             .text-column { display: none; }
             /* Show only the first column on mobile */
             .text-column:first-child { display: block; }
+            .hero-text { opacity: 0; transition: opacity 1s ease-in; }
+            .hero-text.visible { opacity: 1; }
 
             .text-column:first-child .hero-text {
                 font-size: 16px;
@@ -583,10 +588,15 @@
                 };
                 setTimeout(() => {
                     typeHey();
-                    // Schedule text reveal slightly after typing starts, matching previous pacing
+                    // On mobile, reveal only first column text with the same timing
                     setTimeout(() => {
-                        revealAll();
-                        balanceColumns();
+                        if (window.matchMedia('(max-width: 968px)').matches) {
+                            const firstColTexts = document.querySelectorAll('.text-column:first-child .hero-text');
+                            firstColTexts.forEach(t => t.classList.add('visible'));
+                        } else {
+                            revealAll();
+                            balanceColumns();
+                        }
                     }, 500);
                 }, 1500);
             });
