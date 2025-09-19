@@ -57,10 +57,13 @@
 
         .background-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0; transition: opacity 1.2s ease; }
         .background-container.visible { opacity: 1; }
-        .background-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.02); opacity: 0; transition: opacity 1s ease; mix-blend-mode: luminosity; }
-        .background-image.active { opacity: 0.6; animation: subtleZoomOut 20s ease-out forwards; }
+        .background-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.02); opacity: 0; transition: opacity 1s ease; mix-blend-mode: luminosity; will-change: opacity, transform; }
+        .background-image.active { opacity: 0.6; }
+        .background-image.active.zoom-out { animation: subtleZoomOut 20s ease-out forwards; }
+        .background-image.active.zoom-in { animation: subtleZoomIn 20s ease-in forwards; }
 
         @keyframes subtleZoomOut { 0% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes subtleZoomIn { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
         .grain-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.12; z-index: 1; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
 
@@ -135,16 +138,33 @@
                     backgroundContainer.appendChild(img);
                 });
                 backgrounds = Array.from(document.querySelectorAll('.background-image'));
-                if (backgrounds[0]) backgrounds[0].classList.add('active');
+                if (backgrounds[0]) backgrounds[0].classList.add('active', 'zoom-out');
                 setTimeout(() => backgroundContainer.classList.add('visible'), 100);
                 setTimeout(() => header.classList.add('visible'), 300);
             })();
 
-            function changeBackground() {
+            function ensureDecoded(img) {
+                if (!img) return Promise.resolve();
+                if (img.decode) { return img.decode().catch(() => {}); }
+                if (img.complete && img.naturalWidth > 0) { return Promise.resolve(); }
+                return new Promise(resolve => img.addEventListener('load', resolve, { once: true }));
+            }
+
+            let zoomOutNext = false;
+            async function changeBackground() {
                 if (!backgrounds.length) return;
-                backgrounds[currentBg].classList.remove('active');
-                currentBg = (currentBg + 1) % backgrounds.length;
-                backgrounds[currentBg].classList.add('active');
+                const current = backgrounds[currentBg];
+                const nextIndex = (currentBg + 1) % backgrounds.length;
+                const next = backgrounds[nextIndex];
+
+                await ensureDecoded(next);
+                current.classList.remove('zoom-in', 'zoom-out');
+                next.classList.remove('zoom-in', 'zoom-out');
+                void next.offsetWidth;
+                next.classList.add('active', zoomOutNext ? 'zoom-out' : 'zoom-in');
+                requestAnimationFrame(() => { current.classList.remove('active'); });
+                currentBg = nextIndex;
+                zoomOutNext = !zoomOutNext;
             }
             setInterval(changeBackground, 20000);
         });

@@ -288,12 +288,12 @@
             opacity: 0;
             transition: opacity 1s ease;
             mix-blend-mode: luminosity;
+            will-change: opacity, transform;
         }
 
-        .background-image.active {
-            opacity: 0.6;
-            animation: subtleZoomOut 20s ease-out forwards;
-        }
+        .background-image.active { opacity: 0.6; }
+        .background-image.active.zoom-out { animation: subtleZoomOut 20s ease-out forwards; }
+        .background-image.active.zoom-in { animation: subtleZoomIn 20s ease-in forwards; }
 
         /* Grain overlay */
         .grain-overlay {
@@ -350,6 +350,11 @@
         @keyframes subtleZoomOut {
             0% { transform: scale(1.05); }
             100% { transform: scale(1); }
+        }
+
+        @keyframes subtleZoomIn {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
 
         /* Mobile responsive */
@@ -528,7 +533,9 @@
                     backgroundContainer.appendChild(img);
                 });
                 backgrounds = Array.from(document.querySelectorAll('.background-image'));
-                if (backgrounds[0]) backgrounds[0].classList.add('active');
+                if (backgrounds[0]) {
+                    backgrounds[0].classList.add('active', 'zoom-out');
+                }
                 setTimeout(() => backgroundContainer.classList.add('visible'), 100);
             })();
 
@@ -657,14 +664,47 @@
                 }, 500);
             }
             
-            // Background rotation
-            function changeBackground() {
-                backgrounds[currentBg].classList.remove('active');
-                currentBg = (currentBg + 1) % backgrounds.length;
-                backgrounds[currentBg].classList.add('active');
+            // Background rotation with decode + alternating zoom
+            function ensureDecoded(img) {
+                if (!img) return Promise.resolve();
+                if (img.decode) {
+                    return img.decode().catch(() => {});
+                }
+                if (img.complete && img.naturalWidth > 0) {
+                    return Promise.resolve();
+                }
+                return new Promise(resolve => img.addEventListener('load', resolve, { once: true }));
             }
-            
-            setInterval(changeBackground, 20000);
+
+            let zoomOutNext = false; // first one already used zoom-out
+
+            async function changeBackground() {
+                if (!backgrounds.length) return;
+                const current = backgrounds[currentBg];
+                const nextIndex = (currentBg + 1) % backgrounds.length;
+                const next = backgrounds[nextIndex];
+
+                await ensureDecoded(next);
+
+                // Reset animation classes
+                current.classList.remove('zoom-in', 'zoom-out');
+                next.classList.remove('zoom-in', 'zoom-out');
+                // Force reflow to restart animation cleanly
+                void next.offsetWidth;
+
+                // Begin crossfade
+                next.classList.add('active', zoomOutNext ? 'zoom-out' : 'zoom-in');
+                requestAnimationFrame(() => {
+                    current.classList.remove('active');
+                });
+
+                currentBg = nextIndex;
+                zoomOutNext = !zoomOutNext;
+            }
+
+            if (typeof window !== 'undefined') {
+                setInterval(changeBackground, 20000);
+            }
             
             // Click to email
             greeting.addEventListener('click', function() {
