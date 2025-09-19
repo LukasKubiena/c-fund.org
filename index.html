@@ -7,7 +7,7 @@
     <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Mediu.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" as="image" href="img/img2.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="img/WhatsApp Image 2025-09-01 at 11.09.41.jpeg" fetchpriority="high">
     <link rel="icon" href="img/logo.png" type="image/png">
     <link rel="shortcut icon" href="img/logo.png" type="image/png">
     <style>
@@ -271,6 +271,7 @@
             z-index: 0;
             opacity: 0;
             transition: opacity 1.2s ease;
+            background: linear-gradient(180deg, #0b0b0b 0%, #000 100%);
         }
 
         .background-container.visible {
@@ -444,9 +445,7 @@
         </header>
 
         <section class="hero">
-            <div class="background-container">
-                <img src="img/img2.jpg" alt="" class="background-image active zoom-out" loading="eager" decoding="async" fetchpriority="high">
-            </div>
+            <div class="background-container"></div>
 
             <div class="hero-content">
                 <h1 class="hero-greeting">
@@ -517,41 +516,61 @@
                 'img/img9.jpg',
                 'img/img10.jpeg',
                 'img/img11.jpeg',
-                'img/img12.jpeg',
-                'img/img13.png'
+                'img/img12.jpeg'
             ];
 
-            // Early reveal: ensure the container becomes visible quickly and veil hides once fallback is ready
-            (function earlyReveal() {
-                const first = document.querySelector('.background-image');
-                const hideVeil = () => { if (siteVeil) siteVeil.classList.add('is-hidden'); };
-                if (first) {
-                    requestAnimationFrame(() => backgroundContainer.classList.add('visible'));
-                    if (first.decode) {
-                        first.decode().then(hideVeil).catch(hideVeil);
-                    } else if (first.complete && first.naturalWidth > 0) {
-                        hideVeil();
-                    } else {
-                        first.addEventListener('load', hideVeil, { once: true });
-                        setTimeout(hideVeil, 1200); // safety timeout
-                    }
+            function probe(src) {
+                return new Promise(resolve => {
+                    const test = new Image();
+                    test.onload = () => resolve(src);
+                    test.onerror = () => resolve(null);
+                    test.src = src;
+                });
+            }
+
+            // Show container immediately and try to insert a first image fast
+            (function addImmediateFallback() {
+                requestAnimationFrame(() => backgroundContainer.classList.add('visible'));
+                const preloadLink = document.querySelector('link[rel="preload"][as="image"]');
+                const preferred = preloadLink ? preloadLink.getAttribute('href') : null;
+                const fallbacks = [preferred, 'img/img2.jpg', 'img/img1.png'].filter(Boolean);
+                let inserted = false;
+                function trySrc(i) {
+                    if (inserted || i >= fallbacks.length) return;
+                    const test = new Image();
+                    test.onload = () => {
+                        if (inserted) return;
+                        const img = document.createElement('img');
+                        img.src = fallbacks[i];
+                        img.alt = '';
+                        img.className = 'background-image active zoom-out';
+                        backgroundContainer.appendChild(img);
+                        if (siteVeil) siteVeil.classList.add('is-hidden');
+                        inserted = true;
+                    };
+                    test.onerror = () => trySrc(i + 1);
+                    test.src = fallbacks[i];
                 }
+                trySrc(0);
             })();
 
             (async function buildAndInject() {
+                const results = await Promise.all(imageSources.map(probe));
+                const candidateList = Array.from(new Set(results.filter(Boolean)));
                 const existingFirst = document.querySelector('.background-image');
                 const firstSrc = existingFirst ? existingFirst.getAttribute('src') : null;
-                preloadedList = imageSources.filter(src => src !== firstSrc).sort(() => Math.random() - 0.5);
+                preloadedList = candidateList.filter(src => src !== firstSrc).sort(() => Math.random() - 0.5);
                 preloadedList.forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
                     img.alt = '';
-                    img.loading = 'lazy';
-                    img.decoding = 'async';
                     img.className = 'background-image';
                     backgroundContainer.appendChild(img);
                 });
                 backgrounds = Array.from(document.querySelectorAll('.background-image'));
+                if (backgrounds[0] && !backgrounds[0].classList.contains('active')) {
+                    backgrounds[0].classList.add('active', 'zoom-out');
+                }
             })();
 
             // Wait for assets to load
