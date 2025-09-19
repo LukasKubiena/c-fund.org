@@ -7,7 +7,7 @@
     <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Mediu.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" as="image" href="img/WhatsApp Image 2025-09-01 at 11.09.41.jpeg" fetchpriority="high">
+    <link rel="preload" as="image" href="img/img2.jpg" fetchpriority="high">
     <link rel="icon" href="img/logo.png" type="image/png">
     <link rel="shortcut icon" href="img/logo.png" type="image/png">
     <style>
@@ -444,7 +444,9 @@
         </header>
 
         <section class="hero">
-            <div class="background-container"></div>
+            <div class="background-container">
+                <img src="img/img2.jpg" alt="" class="background-image active zoom-out" loading="eager" decoding="async" fetchpriority="high">
+            </div>
 
             <div class="hero-content">
                 <h1 class="hero-greeting">
@@ -502,41 +504,54 @@
             const columns = Array.from(document.querySelectorAll('.text-grid .text-column:not(.credits)'));
             const creditsCol = document.querySelector('.text-column.credits');
             
-            // Probe for img1..img12 inside img/ folder only
-            const baseNames = Array.from({ length: 13 }, (_, i) => `img${i + 1}`);
-            const exts = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.JPG'];
-            const candidates = [];
-            baseNames.forEach(name => {
-                exts.forEach(ext => {
-                    candidates.push(`img/${name}${ext}`);
-                });
-            });
+            // Known image set inside img/ (avoid probing many non-existent files)
+            const imageSources = [
+                'img/img1.png',
+                'img/img2.jpg',
+                'img/img3.jpeg',
+                'img/img4.jpg',
+                'img/img5.jpg',
+                'img/img6.jpg',
+                'img/img7.jpg',
+                'img/img8.jpg',
+                'img/img9.jpg',
+                'img/img10.jpeg',
+                'img/img11.jpeg',
+                'img/img12.jpeg',
+                'img/img13.png'
+            ];
 
-            function probe(src) {
-                return new Promise(resolve => {
-                    const test = new Image();
-                    test.onload = () => resolve(src);
-                    test.onerror = () => resolve(null);
-                    test.src = src;
-                });
-            }
+            // Early reveal: ensure the container becomes visible quickly and veil hides once fallback is ready
+            (function earlyReveal() {
+                const first = document.querySelector('.background-image');
+                const hideVeil = () => { if (siteVeil) siteVeil.classList.add('is-hidden'); };
+                if (first) {
+                    requestAnimationFrame(() => backgroundContainer.classList.add('visible'));
+                    if (first.decode) {
+                        first.decode().then(hideVeil).catch(hideVeil);
+                    } else if (first.complete && first.naturalWidth > 0) {
+                        hideVeil();
+                    } else {
+                        first.addEventListener('load', hideVeil, { once: true });
+                        setTimeout(hideVeil, 1200); // safety timeout
+                    }
+                }
+            })();
 
             (async function buildAndInject() {
-                const results = await Promise.all(candidates.map(probe));
-                const existing = Array.from(new Set(results.filter(Boolean)));
-                preloadedList = existing.sort(() => Math.random() - 0.5);
+                const existingFirst = document.querySelector('.background-image');
+                const firstSrc = existingFirst ? existingFirst.getAttribute('src') : null;
+                preloadedList = imageSources.filter(src => src !== firstSrc).sort(() => Math.random() - 0.5);
                 preloadedList.forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
                     img.alt = '';
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
                     img.className = 'background-image';
                     backgroundContainer.appendChild(img);
                 });
                 backgrounds = Array.from(document.querySelectorAll('.background-image'));
-                if (backgrounds[0]) {
-                    backgrounds[0].classList.add('active', 'zoom-out');
-                }
-                setTimeout(() => backgroundContainer.classList.add('visible'), 100);
             })();
 
             // Wait for assets to load

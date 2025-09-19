@@ -45,7 +45,9 @@
     </style>
 </head>
 <body>
-    <div class="background-container"></div>
+    <div class="background-container">
+        <img src="img/img2.jpg" alt="" class="background-image active zoom-out" loading="eager" decoding="async" fetchpriority="high">
+    </div>
 
     <header class="header">
         <div class="nav-content">
@@ -68,35 +70,42 @@
             let currentBg = 0;
             const header = document.querySelector('.header');
 
-            const baseNames = Array.from({ length: 12 }, (_, i) => `img${i + 1}`);
-            const exts = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.JPG'];
-            const candidates = [];
-            baseNames.forEach(name => { exts.forEach(ext => { candidates.push(`img/${name}${ext}`); }); });
+            const imageSources = [
+                'img/img1.png',
+                'img/img2.jpg',
+                'img/img3.jpeg',
+                'img/img4.jpg',
+                'img/img5.jpg',
+                'img/img6.jpg',
+                'img/img7.jpg',
+                'img/img8.jpg',
+                'img/img9.jpg',
+                'img/img10.jpeg',
+                'img/img11.jpeg',
+                'img/img12.jpeg',
+                'img/img13.png'
+            ];
 
-            function probe(src) {
-                return new Promise(resolve => {
-                    const test = new Image();
-                    test.onload = () => resolve(src);
-                    test.onerror = () => resolve(null);
-                    test.src = src;
-                });
-            }
+            (function earlyReveal() {
+                const first = document.querySelector('.background-image');
+                if (first) requestAnimationFrame(() => backgroundContainer.classList.add('visible'));
+                setTimeout(() => header.classList.add('visible'), 300);
+            })();
 
             (async function buildAndInject() {
-                const results = await Promise.all(candidates.map(probe));
-                const existing = Array.from(new Set(results.filter(Boolean)));
-                const preloadedList = existing.sort(() => Math.random() - 0.5);
+                const existingFirst = document.querySelector('.background-image');
+                const firstSrc = existingFirst ? existingFirst.getAttribute('src') : null;
+                const preloadedList = imageSources.filter(src => src !== firstSrc).sort(() => Math.random() - 0.5);
                 preloadedList.forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
                     img.alt = '';
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
                     img.className = 'background-image';
                     backgroundContainer.appendChild(img);
                 });
                 backgrounds = Array.from(document.querySelectorAll('.background-image'));
-                if (backgrounds[0]) backgrounds[0].classList.add('active', 'zoom-out');
-                setTimeout(() => backgroundContainer.classList.add('visible'), 100);
-                setTimeout(() => header.classList.add('visible'), 300);
             })();
 
             function ensureDecoded(img) {
