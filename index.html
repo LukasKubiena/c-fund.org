@@ -7,7 +7,7 @@
     <link rel="preload" href="NeueHaasDisplay-Light.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Mediu.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="NeueHaasDisplay-Thin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" as="image" href="img/WhatsApp Image 2025-09-01 at 11.09.41.jpeg" fetchpriority="high">
+    <link rel="preload" as="image" href="img/img1.png" fetchpriority="high">
     <link rel="icon" href="img/logo.png" type="image/png">
     <link rel="shortcut icon" href="img/logo.png" type="image/png">
     <style>
@@ -271,7 +271,6 @@
             z-index: 0;
             opacity: 0;
             transition: opacity 1.2s ease;
-            background: linear-gradient(180deg, #0b0b0b 0%, #000 100%);
         }
 
         .background-container.visible {
@@ -503,21 +502,15 @@
             const columns = Array.from(document.querySelectorAll('.text-grid .text-column:not(.credits)'));
             const creditsCol = document.querySelector('.text-column.credits');
             
-            // Known image set inside img/ (avoid probing many non-existent files)
-            const imageSources = [
-                'img/img1.png',
-                'img/img2.jpg',
-                'img/img3.jpeg',
-                'img/img4.jpg',
-                'img/img5.jpg',
-                'img/img6.jpg',
-                'img/img7.jpg',
-                'img/img8.jpg',
-                'img/img9.jpg',
-                'img/img10.jpeg',
-                'img/img11.jpeg',
-                'img/img12.jpeg'
-            ];
+            // Probe for img1..img12 inside img/ folder only
+            const baseNames = Array.from({ length: 13 }, (_, i) => `img${i + 1}`);
+            const exts = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.JPG'];
+            const candidates = [];
+            baseNames.forEach(name => {
+                exts.forEach(ext => {
+                    candidates.push(`img/${name}${ext}`);
+                });
+            });
 
             function probe(src) {
                 return new Promise(resolve => {
@@ -528,12 +521,11 @@
                 });
             }
 
-            // Show container immediately and try to insert a first image fast
-            (function addImmediateFallback() {
-                requestAnimationFrame(() => backgroundContainer.classList.add('visible'));
+            // Insert a first image immediately to avoid initial black screen
+            (function addImmediateFirst() {
                 const preloadLink = document.querySelector('link[rel="preload"][as="image"]');
                 const preferred = preloadLink ? preloadLink.getAttribute('href') : null;
-                const fallbacks = [preferred, 'img/img2.jpg', 'img/img1.png'].filter(Boolean);
+                const fallbacks = [preferred, 'img/img1.png', 'img/img2.jpg'].filter(Boolean);
                 let inserted = false;
                 function trySrc(i) {
                     if (inserted || i >= fallbacks.length) return;
@@ -544,8 +536,9 @@
                         img.src = fallbacks[i];
                         img.alt = '';
                         img.className = 'background-image active zoom-out';
+                        img.decoding = 'async';
                         backgroundContainer.appendChild(img);
-                        if (siteVeil) siteVeil.classList.add('is-hidden');
+                        requestAnimationFrame(() => backgroundContainer.classList.add('visible'));
                         inserted = true;
                     };
                     test.onerror = () => trySrc(i + 1);
@@ -555,22 +548,24 @@
             })();
 
             (async function buildAndInject() {
-                const results = await Promise.all(imageSources.map(probe));
-                const candidateList = Array.from(new Set(results.filter(Boolean)));
+                const results = await Promise.all(candidates.map(probe));
+                const existing = Array.from(new Set(results.filter(Boolean)));
                 const existingFirst = document.querySelector('.background-image');
                 const firstSrc = existingFirst ? existingFirst.getAttribute('src') : null;
-                preloadedList = candidateList.filter(src => src !== firstSrc).sort(() => Math.random() - 0.5);
+                preloadedList = existing.filter(src => src !== firstSrc).sort(() => Math.random() - 0.5);
                 preloadedList.forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
                     img.alt = '';
                     img.className = 'background-image';
+                    img.decoding = 'async';
                     backgroundContainer.appendChild(img);
                 });
                 backgrounds = Array.from(document.querySelectorAll('.background-image'));
-                if (backgrounds[0] && !backgrounds[0].classList.contains('active')) {
+                if (backgrounds[0]) {
                     backgrounds[0].classList.add('active', 'zoom-out');
                 }
+                setTimeout(() => backgroundContainer.classList.add('visible'), 100);
             })();
 
             // Wait for assets to load
@@ -584,20 +579,26 @@
                 });
             }
 
-            Promise.all([
-                document.fonts ? document.fonts.ready : Promise.resolve(),
-                new Promise(resolve => {
-                    const check = () => {
-                        const first = document.querySelector('.background-image');
-                        if (first) {
-                            waitForImageLoad(first).then(resolve);
-                        } else {
-                            requestAnimationFrame(check);
-                        }
-                    };
-                    check();
-                })
-            ]).then(() => {
+            const fontsReady = document.fonts
+                ? Promise.race([
+                    document.fonts.ready,
+                    new Promise(res => setTimeout(res, 1200))
+                  ])
+                : Promise.resolve();
+
+            const firstImageReady = new Promise(resolve => {
+                const check = () => {
+                    const first = document.querySelector('.background-image');
+                    if (first) {
+                        waitForImageLoad(first).then(resolve);
+                    } else {
+                        requestAnimationFrame(check);
+                    }
+                };
+                check();
+            });
+
+            Promise.all([firstImageReady, fontsReady]).then(() => {
                 if (siteVeil) siteVeil.classList.add('is-hidden');
                 // Trigger navbar + columns visibility together
                 heroContent.classList.add('visible');
